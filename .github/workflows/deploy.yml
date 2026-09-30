@@ -1,0 +1,62 @@
+name: Deploy Ecommerce Workers
+
+on:
+  workflow_dispatch:
+    inputs:
+      user_uuid:
+        description: "Uuid do usuário para deploy"
+        required: true
+        type: string
+      app_uuid:
+        description: "Uuid do app para deploy"
+        required: true
+        type: string
+
+# Evita dois deploys simultâneos para o mesmo app
+concurrency:
+  group: deploy-${{ inputs.app_uuid }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      # 1️⃣ Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2️⃣ Setup Node
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      # 3️⃣ Dependências do app Next
+      - name: Install dependencies (Next app)
+        working-directory: ./apps/ecommerce
+        run: npm install
+
+      # 4️⃣ Dependências do orchestrator (scripts)
+      - name: Install dependencies (orchestrator)
+        working-directory: ./scripts
+        run: npm install
+
+      # 5️⃣ Wrangler
+      - name: Install Wrangler
+        run: npm install -g wrangler
+
+      # 6️⃣ Deploy (Next via open-next)
+      - name: Run deploy for user
+        env:
+          USER_UUID: ${{ inputs.user_uuid }}
+          APP_UUID: ${{ inputs.app_uuid }}
+          CP_ACCOUNT_ID: ${{ secrets.CP_ACCOUNT_ID }}
+          CP_API_TOKEN: ${{ secrets.CP_API_TOKEN }}
+          CP_DB_ID: ${{ secrets.CP_DB_ID }}
+          CP_DOMAIN: ${{ secrets.CP_DOMAIN }}
+          VN_PUBLIC_LICENCE: ${{ secrets.VN_PUBLIC_LICENCE }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: node scripts/deploy-user.js

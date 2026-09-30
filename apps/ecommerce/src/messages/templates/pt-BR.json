@@ -1,0 +1,200 @@
+{
+    "------------------------  ORDER  -----------------------": "Pedido",
+    "TemplateOrderCommon": {
+        "fallbackSiteName": "Loja Online",
+        "sections": {
+            "customer": "Cliente",
+            "delivery": "Entrega",
+            "order": "Pedido",
+            "bankInfo": "Dados para Pagamento",
+            "tracking": "Rastreamento"
+        },
+        "bankInfo": {
+            "instruction": "Realize a transferência para os dados abaixo e envie o comprovante para confirmarmos seu pedido.",
+            "bank": "Banco",
+            "agency": "Agência",
+            "account": "Conta",
+            "beneficiary": "Beneficiário",
+            "cnpj": "CNPJ",
+            "pixKey": "Chave PIX",
+            "totalToPay": "Valor a transferir"
+        },
+        "fields": {
+            "name": "Nome",
+            "email": "E-mail",
+            "phone": "Telefone",
+            "carrier": "Transportadora",
+            "address": "Endereço",
+            "zip": "CEP",
+            "pickup": "Retirada no local",
+            "number": "Número",
+            "date": "Data",
+            "status": "Status",
+            "payment": "Pagamento",
+            "shippedDate": "Data de envio",
+            "trackingNumber": "Código de rastreio",
+            "errorCode": "Código do erro",
+            "canceledDate": "Data do cancelamento",
+            "cancelReason": "Motivo"
+        },
+        "status": {
+            "pending": "Pendente",
+            "shipped": "Enviado",
+            "paymentError": "Erro no pagamento",
+            "canceled": "Cancelado"
+        },
+        "table": {
+            "sku": "Código",
+            "product": "Produto",
+            "unitPrice": "Preço unitário",
+            "quantity": "Qtd",
+            "total": "Total"
+        },
+        "totals": {
+            "subtotal": "Subtotal",
+            "shipping": "Frete",
+            "interest": "Juros",
+            "installments": "Parcelas",
+            "discount": "Desconto",
+            "total": "TOTAL"
+        },
+        "observations": "Observações",
+        "footer": {
+            "thanks": "Obrigado por comprar conosco!",
+            "rights": "{year} © {siteName}. Todos os direitos reservados."
+        }
+    },
+    "-----------------  ORDER_CONFIRMATION  -----------------": "Confirmação de Pedido",
+    "TemplateOrderConfirmation": {
+        "documentTitle": "Comprovante de Pedido #{orderId}",
+        "orderReceipt": "COMPROVANTE DE PEDIDO",
+        "sections": {
+            "pixInfo": "Pagamento via PIX"
+        },
+        "pixInfo": {
+            "instruction": "Escaneie o QR Code abaixo ou copie o código para pagar no app do seu banco. O pedido será confirmado após a identificação do pagamento.",
+            "qrCodeAlt": "QR Code para pagamento PIX",
+            "copyPasteLabel": "Código copia-e-cola",
+            "keyLabel": "Chave PIX",
+            "holderLabel": "Favorecido",
+            "txidLabel": "Identificador",
+            "totalToPay": "Valor a pagar",
+            "expiresAt": "Válido até"
+        }
+    },
+    "-------------------  ORDER_SHIPPED  --------------------": "Pedido Enviado",
+    "TemplateOrderShipped": {
+        "documentTitle": "Pedido #{orderId} Enviado",
+        "orderShipped": "PEDIDO ENVIADO",
+        "tracking": {
+            "title": "Seu pedido foi enviado!",
+            "instruction": "Use o código abaixo para rastrear sua entrega:",
+            "trackButton": "Rastrear Entrega"
+        }
+    },
+    "---------------  ORDER_PAYMENT_ERROR  ------------------": "Erro no Pagamento",
+    "TemplateOrderPaymentError": {
+        "documentTitle": "Problema no Pagamento - Pedido #{orderId}",
+        "orderPaymentError": "PAGAMENTO NÃO CONCLUÍDO",
+        "paymentError": {
+            "title": "Não conseguimos processar seu pagamento",
+            "instruction": "Por favor, revise os detalhes abaixo e tente novamente. Se o problema persistir, entre em contato com nosso suporte.",
+            "retryButton": "Tentar Pagar Novamente",
+            "supportText": "Precisa de ajuda? Fale conosco:"
+        }
+    },
+    "-------------------  ORDER_CANCELED  --------------------": "Pedido Cancelado",
+    "TemplateOrderCanceled": {
+        "documentTitle": "Pedido #{orderId} Cancelado",
+        "orderCanceled": "PEDIDO CANCELADO",
+        "cancelInfo": {
+            "title": "Seu pedido foi cancelado",
+            "instruction": "Abaixo estão os detalhes do seu pedido cancelado. Em caso de dúvidas, entre em contato com nosso suporte.",
+            "reasonLabel": "Motivo do cancelamento",
+            "refundInfo": "Se houve pagamento, o reembolso será processado conforme a forma de pagamento utilizada.",
+            "supportText": "Precisa de ajuda? Fale conosco:"
+        }
+    },
+    "---------------------  REGISTER  ------------------------": "Registro",
+    "TemplateRegister": {
+        "documentTitle": "Confirme seu Cadastro",
+        "title": "Confirme seu Cadastro",
+        "greeting": "Olá {userName},",
+        "thankYou": "Obrigado por se cadastrar no {siteName}.",
+        "instruction": "Para completar seu cadastro e ativar sua conta, clique no link abaixo:",
+        "button": "Confirmar Cadastro",
+        "fallbackLink": "Se o botão não funcionar, copie e cole este link no seu navegador:",
+        "ignore": "Se você não solicitou este cadastro, por favor ignore este e-mail.",
+        "footer": {
+            "automated": "Esta é uma mensagem de e-mail automatizada, por favor não responda pois o e-mail não é monitorado."
+        }
+    },
+    "------------------  RESET_PASSWORD  ---------------------": "Reset Password",
+    "TemplateResetPassword": {
+        "documentTitle": "Alteração de Senha",
+        "title": "Alteração de Senha",
+        "greeting": "Olá {userName},",
+        "reason": "Você está recebendo este e-mail porque a recuperação de senha foi acionada no site {siteName}.",
+        "notYou": "Se não foi você, simplesmente desconsidere esta mensagem e nada acontecerá.",
+        "instruction": "Se foi você, clique no link abaixo para confirmar sua nova senha.",
+        "button": "Recuperar Senha",
+        "fallbackLink": "Se o botão não funcionar, copie e cole este link no seu navegador:",
+        "footer": {
+            "automated": "Esta é uma mensagem de e-mail automatizada, por favor não responda pois o e-mail não é monitorado."
+        }
+    },
+    "---------------  PAYMENT_INSTRUCTIONS  ------------------": "Payment Instructions",
+    "TemplatePaymentInstructions": {
+        "documentTitle": "Instruções de pagamento — Pedido #{orderId}",
+        "fallbackSiteName": "Loja",
+        "paymentInstructions": "Instruções para pagamento",
+        "sections": {
+            "customer": "Cliente",
+            "order": "Pedido"
+        },
+        "fields": {
+            "name": "Nome",
+            "email": "E-mail",
+            "phone": "Telefone",
+            "number": "Número",
+            "date": "Data",
+            "payment": "Pagamento",
+            "status": "Status"
+        },
+        "status": {
+            "pending": "Aguardando pagamento"
+        },
+        "table": {
+            "sku": "SKU",
+            "product": "Produto",
+            "unitPrice": "Preço unitário",
+            "quantity": "Qtd",
+            "total": "Total"
+        },
+        "totals": {
+            "subtotal": "Subtotal",
+            "shipping": "Frete",
+            "total": "Total",
+            "discount":"Desconto"
+        },
+        "payment": {
+            "amountToPay": "Valor a pagar",
+            "expiresAt": "Válido até {date}",
+            "pix": {
+                "title": "Pague com PIX",
+                "instructions": "Escaneie o QR Code abaixo no aplicativo do seu banco ou copie o código PIX e cole na opção \"PIX Copia e Cola\".",
+                "copyPasteLabel": "PIX Copia e Cola"
+            },
+            "boleto": {
+                "title": "Pague com boleto bancário",
+                "instructions": "Copie a linha digitável abaixo e pague no aplicativo ou internet banking do seu banco, ou baixe o boleto em PDF pelo botão.",
+                "barcodeLabel": "Linha digitável",
+                "downloadButton": "Baixar boleto (PDF)"
+            }
+        },
+        "footer": {
+            "thanks": "Obrigado pela sua compra!",
+            "rights": "© {year} {siteName}. Todos os direitos reservados."
+        }
+    }
+}

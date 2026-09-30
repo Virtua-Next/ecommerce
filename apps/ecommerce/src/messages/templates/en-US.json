@@ -1,0 +1,200 @@
+{
+    "------------------------  ORDER  -----------------------": "Order",
+    "TemplateOrderCommon": {
+        "fallbackSiteName": "Online Shopping",
+        "sections": {
+            "customer": "Customer",
+            "delivery": "Delivery",
+            "order": "Order",
+            "bankInfo": "Payment Details",
+            "tracking": "Tracking"
+        },
+        "bankInfo": {
+            "instruction": "Please transfer the amount below and send us the receipt to confirm your order.",
+            "bank": "Bank",
+            "agency": "Branch",
+            "account": "Account",
+            "beneficiary": "Beneficiary",
+            "cnpj": "Tax ID",
+            "pixKey": "PIX Key",
+            "totalToPay": "Amount to transfer"
+        },
+        "fields": {
+            "name": "Name",
+            "email": "Email",
+            "phone": "Phone",
+            "carrier": "Carrier",
+            "address": "Address",
+            "zip": "ZIP",
+            "pickup": "Pickup in store",
+            "number": "Number",
+            "date": "Date",
+            "status": "Status",
+            "payment": "Payment",
+            "shippedDate": "Shipped date",
+            "trackingNumber": "Tracking number",
+            "errorCode": "Error code",
+            "canceledDate": "Canceled date",
+            "cancelReason": "Reason"
+        },
+        "status": {
+            "pending": "Pending",
+            "shipped": "Shipped",
+            "paymentError": "Payment error",
+            "canceled": "Canceled"
+        },
+        "table": {
+            "sku": "SKU",
+            "product": "Product",
+            "unitPrice": "Unit price",
+            "quantity": "Qty",
+            "total": "Total"
+        },
+        "totals": {
+            "subtotal": "Subtotal",
+            "shipping": "Shipping",
+            "interest": "Interest",
+            "installments": "Installments",
+            "discount": "Discount",
+            "total": "TOTAL"
+        },
+        "observations": "Observations",
+        "footer": {
+            "thanks": "Thank you for your purchase!",
+            "rights": "{year} © {siteName}. All rights reserved."
+        }
+    },
+    "-----------------  ORDER_CONFIRMATION  -----------------": "Order Confirmation",
+    "TemplateOrderConfirmation": {
+        "documentTitle": "Order Receipt #{orderId}",
+        "orderReceipt": "ORDER RECEIPT",
+        "sections": {
+            "pixInfo": "PIX Payment"
+        },
+        "pixInfo": {
+            "instruction": "Scan the QR Code below or copy the code to pay in your bank's app. The order will be confirmed once the payment is identified.",
+            "qrCodeAlt": "QR Code for PIX payment",
+            "copyPasteLabel": "Copy-and-paste code",
+            "keyLabel": "PIX Key",
+            "holderLabel": "Payee",
+            "txidLabel": "Reference",
+            "totalToPay": "Amount to pay",
+            "expiresAt": "Valid until"
+        }
+    },
+    "-------------------  ORDER_SHIPPED  --------------------": "Order Shipped",
+    "TemplateOrderShipped": {
+        "documentTitle": "Order #{orderId} Shipped",
+        "orderShipped": "ORDER SHIPPED",
+        "tracking": {
+            "title": "Your order has been shipped!",
+            "instruction": "Use the code below to track your delivery:",
+            "trackButton": "Track Delivery"
+        }
+    },
+    "---------------  ORDER_PAYMENT_ERROR  ------------------": "Order Payment Error",
+    "TemplateOrderPaymentError": {
+        "documentTitle": "Payment Issue - Order #{orderId}",
+        "orderPaymentError": "PAYMENT NOT COMPLETED",
+        "paymentError": {
+            "title": "We couldn't process your payment",
+            "instruction": "Please review the details below and try again. If the problem persists, contact our support team.",
+            "retryButton": "Try Payment Again",
+            "supportText": "Need help? Contact us:"
+        }
+    },
+    "-------------------  ORDER_CANCELED  --------------------": "Order Canceled",
+    "TemplateOrderCanceled": {
+        "documentTitle": "Order #{orderId} Canceled",
+        "orderCanceled": "ORDER CANCELED",
+        "cancelInfo": {
+            "title": "Your order has been canceled",
+            "instruction": "Below are the details of your canceled order. If you have any questions, please contact our support team.",
+            "reasonLabel": "Cancellation reason",
+            "refundInfo": "If a payment was made, the refund will be processed according to the payment method used.",
+            "supportText": "Need help? Contact us:"
+        }
+    },
+    "---------------------  REGISTER  ------------------------": "Registro",
+    "TemplateRegister": {
+        "documentTitle": "Confirm Registration",
+        "title": "Confirm Your Registration",
+        "greeting": "Hello {userName},",
+        "thankYou": "Thank you for registering on {siteName}.",
+        "instruction": "To complete your registration and activate your account, please click the link below:",
+        "button": "Confirm Registration",
+        "fallbackLink": "If the button doesn't work, copy and paste this link into your browser:",
+        "ignore": "If you didn't request this registration, please ignore this email.",
+        "footer": {
+            "automated": "This is an automated email message, please do not reply as the email is not monitored."
+        }
+    },
+    "------------------  RESET_PASSWORD  ---------------------": "Reset Password",
+    "TemplateResetPassword": {
+        "documentTitle": "Password Change",
+        "title": "Password Change",
+        "greeting": "Hello {userName},",
+        "reason": "You are receiving this email because a password reset was requested on {siteName}.",
+        "notYou": "If this wasn't you, simply ignore this message and nothing will happen.",
+        "instruction": "If it was you, click the link below to confirm your new password.",
+        "button": "Reset Password",
+        "fallbackLink": "If the button doesn't work, copy and paste this link into your browser:",
+        "footer": {
+            "automated": "This is an automated email message, please do not reply as the email is not monitored."
+        }
+    },
+    "---------------  PAYMENT_INSTRUCTIONS  ------------------": "Payment Instructions",
+    "TemplatePaymentInstructions": {
+        "documentTitle": "Payment instructions — Order #{orderId}",
+        "fallbackSiteName": "Store",
+        "paymentInstructions": "Payment instructions",
+        "sections": {
+            "customer": "Customer",
+            "order": "Order"
+        },
+        "fields": {
+            "name": "Name",
+            "email": "Email",
+            "phone": "Phone",
+            "number": "Number",
+            "date": "Date",
+            "payment": "Payment",
+            "status": "Status"
+        },
+        "status": {
+            "pending": "Awaiting payment"
+        },
+        "table": {
+            "sku": "SKU",
+            "product": "Product",
+            "unitPrice": "Unit price",
+            "quantity": "Qty",
+            "total": "Total"
+        },
+        "totals": {
+            "subtotal": "Subtotal",
+            "shipping": "Shipping",
+            "total": "Total",
+            "discount":"Discount"
+        },
+        "payment": {
+            "amountToPay": "Amount to pay",
+            "expiresAt": "Valid until {date}",
+            "pix": {
+                "title": "Pay with PIX",
+                "instructions": "Scan the QR code below with your bank app or copy the PIX code and paste it into the \"PIX Copy and Paste\" option.",
+                "copyPasteLabel": "PIX Copy and Paste"
+            },
+            "boleto": {
+                "title": "Pay with boleto",
+                "instructions": "Copy the barcode below and pay through your bank's app or online banking, or download the PDF using the button.",
+                "barcodeLabel": "Barcode",
+                "downloadButton": "Download boleto (PDF)"
+            }
+        },
+        "footer": {
+            "thanks": "Thank you for your purchase!",
+            "rights": "© {year} {siteName}. All rights reserved."
+        }
+    }
+}

@@ -1,36 +1,53 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# GIT
+.gitignore
+teste.js
+_tailwind.config.ts
+_globals.css
+zzz.txt
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
+# ENV
+.env*
+.dev*
 
-# testing
-/coverage
+# NODE
+node_modules/
 
-# next.js
-/.next/
-/out/
+# WRANGLER
+wrangler.jsonc
+worker-configuration.d.ts
+.wrangler/
+.open-next/
 
-# production
-/build
+# NEXT
+next-env.d.ts
+.next/
 
 # misc
 .DS_Store
-*.pem
+db.sql
+run.sql
+dados.txt
 
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# VSCODE
+.vscode
 
-# local env files
-.env*.local
-.env
-
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# /ECOMMERCE
+# .git
+# .github
+#     workflows
+#         deploy.yml
+# apps/
+#     ecommerce/
+#         .next/
+#         .open-next/
+#         .wrangler/
+#         node_modules/
+#         public/
+#         src/
+#         package.json
+# scripts/
+#     db.js
+#     deploy-user.js
+#     deploy.js
+#     utils.ts
+# .gitignore
