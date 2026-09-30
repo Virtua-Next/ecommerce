@@ -117,7 +117,7 @@ let dbCacheName;
 if (deployStatus === 'ready') {
     try {
         dbName = user.app.domain.toLowerCase().replace(/\./g, '-')
-        dbName = `${dbName}-db`
+        dbName = `${dbName}-db`;
 
         dbCacheName = user.app.domain.toLowerCase().replace(/\./g, '-')
         dbCacheName = `${dbCacheName}-cache-db`
