@@ -31,16 +31,16 @@ jobs:
       # 3️⃣ Dependências do app Next
       - name: Install dependencies (Next app)
         working-directory: ./apps/ecommerce
-        run: npm install
+        run: npm ci
 
       # 4️⃣ Dependências do orchestrator (scripts)
       - name: Install dependencies (orchestrator)
         working-directory: ./scripts
-        run: npm install
+        run: npm ci
 
       # 5️⃣ Wrangler (Cloudflare)
       - name: Install Wrangler
-        run: npm install -g wrangler
+        run: npm ci -g wrangler
 
       # 6️⃣ Deploy para todos os usuários
       - name: Deploy all users
