@@ -75,7 +75,8 @@ export function generateWranglerConfig(env, workerName) {
     "vars": {
         "JWT_EXPIRES_IN": "3d"
     }
-}`.trim();}
+}`.trim();
+}
 
 // called by: ensureSafeToRedeploy
 export async function getWorkerMetadata(accountId, workerName, apiToken) {

@@ -351,4 +351,3 @@ export async function updateCpDatabase(cpAccountId, cpDatabaseId, cpApiToken, ap
 
     return data;
 }
-

@@ -25,7 +25,6 @@ try {
 
 const appsArray = Array.isArray(apps) ? apps : [apps];
 
-
 for (const item of appsArray) {
     if (item.control?.updateEligible) {
         try {
@@ -40,9 +39,7 @@ for (const item of appsArray) {
     }
 }
 
-
 const failed = results.filter(r => r.status === "update-failed");
 const succeeded = results.filter(r => r.status === "update-deployed");
-
 
 console.log(`✅ ${succeeded.length} apps atualizados, ❌ ${failed.length} falharam`);
