@@ -45,7 +45,7 @@ jobs:
 
       # 5️⃣ Wrangler
       - name: Install Wrangler
-        run: npm ci -g wrangler
+        run: npm install -g wrangler
 
       # 6️⃣ Deploy (Next via open-next)
       - name: Run deploy for user

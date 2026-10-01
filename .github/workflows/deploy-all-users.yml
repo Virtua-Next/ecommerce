@@ -40,7 +40,7 @@ jobs:
 
       # 5️⃣ Wrangler (Cloudflare)
       - name: Install Wrangler
-        run: npm ci -g wrangler
+        run: npm install -g wrangler
 
       # 6️⃣ Deploy para todos os usuários
       - name: Deploy all users
