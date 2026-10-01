@@ -21,7 +21,7 @@ const vnPublicLicence = process.env.VN_PUBLIC_LICENCE;
 if (!userUuid) { throw new Error("USER_UUID not provided") }
 if (!appUuid) { throw new Error("APP_UUID not provided") }
 
-console.log(`🚀 Starting deploy for user ${userUuid} on app ${appUuid}`);
+console.log(`🚀 Starting deploy for app ${appUuid}`);
 
 let deployStatus = "ready";
 const errorLog = [];
@@ -44,7 +44,7 @@ if (deployStatus === 'ready') {
             try {
                 await revokeToken(fullTokenId);
             } catch (error) {
-                errorLog.push(`Failed to revoke fullToken ${fullTokenId} - ${error.message}`);
+                errorLog.push(`Failed to revoke fullToken - ${error.message}`);
             }
 
             const token = await criarToken(user.token, user.accountId);
@@ -135,7 +135,7 @@ if (deployStatus === 'ready') {
         if (error?.message?.includes('already exists')) {
             try {
                 dbInfo = await getCloudflareDatabaseInfo(fullToken, user.accountId, dbName);
-                console.warn(`Database ${dbName} já existia, reaproveitando`);
+                console.warn(`Database já existia, reaproveitando`);
             } catch (innerError) {
                 errorLog.push(`Failed to get current  database - ${innerError.message}`);
                 deployStatus = "failed";
@@ -155,7 +155,7 @@ if (deployStatus === 'ready') {
         if (error?.message?.includes('already exists')) {
             try {
                 dbCacheInfo = await getCloudflareDatabaseInfo(fullToken, user.accountId, dbCacheName);
-                console.warn(`Cache database ${dbCacheName} já existia, reaproveitando`);
+                console.warn(`Cache database já existia, reaproveitando`);
             } catch (innerError) {
                 errorLog.push(`Failed to get current cache database - ${innerError.message}`);
                 deployStatus = "failed";
@@ -210,7 +210,7 @@ try {
 }
 
 if (deployStatus === "ready") {
-    console.log(`✅ Deploy finished for user ${userUuid} on app ${appUuid}`);
+    console.log(`✅ Deploy finished for app ${appUuid}`);
 
     try {
         const subject = `Your app is live! 🎉`;
@@ -225,11 +225,11 @@ If you have any questions, feel free to reach out.
 `;
         await notifyByEmail(user.email, subject, body);
     } catch (error) {
-        errorLog.push(`Failed to notify user ${userUuid} - ${error.message}`);
+        errorLog.push(`Failed to notify user - ${error.message}`);
     }
 
 } else {
-    errorLog.push(`❌ Deploy finished with error for user ${userUuid} on app ${appUuid}`);
+    errorLog.push(`❌ Deploy finished with error for app ${appUuid}`);
 
     try {
         const subject = `We ran into an issue setting up your app`;
@@ -243,7 +243,7 @@ Sorry for the inconvenience.
 `;
         await notifyByEmail(user.email, subject, body);
     } catch (error) {
-        errorLog.push(`Failed to notify user ${userUuid} about failure - ${error.message}`);
+        errorLog.push(`Failed to notify user about failure - ${error.message}`);
     }
     console.log('Logs:', errorLog);
 }

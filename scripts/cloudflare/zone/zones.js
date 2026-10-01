@@ -19,7 +19,6 @@ async function createZoneInCloudflare(domain, apiToken) {
     if (data.success) {
         return data.result?.[0];
     } else {
-        console.error('Erro ao criar zona:', data.errors);
         throw new Error('Erro ao criar zona na Cloudflare');
     }
 }
@@ -43,20 +42,18 @@ export async function getDomainZone(domain, apiToken) {
             if (data.result && data.result.length > 0) {
                 return data.result[0];
             } else {
-                console.error(`Zona não encontrada para ${domain}, criando...`);
+                console.error(`Zona não encontrada, criando...`);
                 return await createZoneInCloudflare(domain, apiToken);
             }
         } else {
             if (response.status === 404) {
-                console.error(`Zona não encontrada (404) para ${domain}, criando...`);
+                console.error(`Zona não encontrada (404), criando...`);
                 return await createZoneInCloudflare(domain, apiToken);
             } else {
-                console.error("Erro ao buscar zona:", data);
                 throw new Error(`Falha ao buscar zona: ${data.errors ? data?.errors[0].message : 'Erro desconhecido'}`);
             }
         }
     } catch (err) {
-        console.error("Erro de rede ao buscar zona:", err);
         throw new Error(`Erro de rede ao buscar zona: ${err.message}`);
     }
 }

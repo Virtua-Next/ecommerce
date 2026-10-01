@@ -17,14 +17,12 @@ async function createSecretsStore(apiToken, accountId) {
         const data = await response.json();
 
         if (!response.ok) {
-            console.error("Error creating store:", data);
             throw new Error(`Failed to create store: ${data.errors ? data.errors[0].message : 'Unknown error'}`);
         }
 
         return data.result.id; // Retorna o ID do store recém-criado
 
     } catch (error) {
-        console.error("Error creating store:", error);
         throw error; // Relança o erro para ser tratado
     }
 }
@@ -59,7 +57,6 @@ export async function getSecretsStore(apiToken, accountId) {
 
         if (!response.ok) {
             const errorData = await response.json();
-            console.error("Error fetching stores:", errorData);
             throw new Error(`Failed to fetch stores: ${errorData.errors ? errorData.errors[0].message : 'Unknown error'}`);
         }
 

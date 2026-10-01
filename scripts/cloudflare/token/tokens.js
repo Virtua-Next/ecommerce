@@ -16,7 +16,7 @@ export async function verifyToken(token) {
         // status "active" = válido e utilizável
         return response.ok && data.success && data.result?.status === "active";
     } catch (error) {
-        console.error("Erro ao verificar token:", error);
+        console.error("Erro ao verificar token:", error?.message);
         return false;
     }
 }
@@ -171,14 +171,14 @@ export async function criarToken(tokenCriadorDeToken, accountId) {
         const data = await response.json();
 
         if (!response.ok) {
-            console.error("Erro ao criar Deployer Token:", data);
+            console.error("Erro ao criar Deployer token:", data?.errors?.[0]?.message || 'Unknown error');
             return null;
         }
 
         return data?.result || null;
 
     } catch (error) {
-        console.error("Erro na requisição:", error);
+        console.error("Erro na requisição:", error?.message);
         return null;
     }
 }

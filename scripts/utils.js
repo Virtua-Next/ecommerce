@@ -30,7 +30,7 @@ async function ensureSafeToRedeploy({ cpAccountId, cpDatabaseId, cpApiToken, cli
         );
     }
 
-    console.warn(`App "${databaseName}" já registrado por esta plataforma, limpando antes do redeploy...`);
+    console.warn(`App já registrado por esta plataforma, limpando antes do redeploy...`);
     await deleteCustomDomainIfExists(clientAccountId, hostname, clientApiToken);
     await deleteWorkerScript(clientAccountId, workerName, clientApiToken);
 }
@@ -138,7 +138,7 @@ export async function deployApp(item, { vnPublicLicence, cpAccountId, cpDatabase
 
             await runSql(item.fullToken, item.accountId, item.app.databaseId, updateSql);
 
-            console.log(`✅ OK executou SQL de migração - ${item.app.domain}`);
+            console.log(`✅ OK executou SQL de migração`);
         } catch (error) {
             result.errors.push(`SQL migration failed: ${error.message}`);
             result.status = "update-failed";
@@ -148,7 +148,7 @@ export async function deployApp(item, { vnPublicLicence, cpAccountId, cpDatabase
     try {
         await deployWorker(item.app.domain, item.accountId, item.fullToken, item.app.databaseName, item.app.databaseId, item.app.cachedatabaseName, item.app.cachedatabaseId, item.storeId, item.app.appLicenceKey, vnPublicLicence, isUpdate);
 
-        console.log(`✅ OK ${item.app.domain}`);
+        console.log(`✅ OK`);
     } catch (error) {
         result.errors.push(`Failed: ${error.message}`);
         result.status = "update-failed";

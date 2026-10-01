@@ -175,7 +175,6 @@ export async function runSqlForInstall(apiToken, accountId, databaseId, sql, bat
         const data = await res.json();
 
         if (!res.ok) {
-            console.error("Erro no batch SQL:", batchSql, data);
             throw new Error(data.errors?.[0]?.message || "Erro ao executar SQL");
         }
     }
@@ -195,7 +194,6 @@ export async function runSql(apiToken, accountId, databaseId, sql) {
     const data = await res.json();
 
     if (!res.ok) {
-        console.error("Erro ao executar SQL:", sql, data);
         throw new Error(data.errors?.[0]?.message || "Erro ao executar SQL");
     }
 

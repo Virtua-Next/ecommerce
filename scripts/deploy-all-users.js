@@ -29,7 +29,7 @@ const appsArray = Array.isArray(apps) ? apps : [apps];
 for (const item of appsArray) {
     if (item.control?.updateEligible) {
         try {
-            console.log(`🚀 Deploy app: ${item.app.uuid} user: ${item.uuid} domain: ${item.app.domain}`);
+            console.log(`🚀 Deploy app: ${item.app.uuid}`);
 
             const result = await deployApp(item, config);
             results.push(result);
