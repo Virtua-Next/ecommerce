@@ -13,6 +13,7 @@ import { apiFetch, extractData, parseNumber } from '@/lib/utils';
 import { useRouter } from '@/i18n/navigation';
 import { IconDropdown } from '@/components/IconDropdown/IconDropdown';
 import { Button } from '@/components/ui/button';
+import { loginHref } from '@/i18n/routing';
 
 
 const NOTHING_TOUCHED: Record<SupportedLanguage, boolean> = SUPPORTED_LANGUAGES.reduce(
@@ -78,7 +79,7 @@ const PaymentComponent = React.memo(function PaymentComponent() {
 
                 if (error.status === 401 || error.status === 403) {
                     showAlert('danger', tCommon('sessionExpired'), () => {
-                        router.push({ pathname: '/login?callback=/admin/config/config-payment' });
+                        router.push(loginHref('/admin/config/config-payment'));
                     });
                 } else {
                     console.error('Erro ao carregar configurações de pagamento', error);
@@ -209,7 +210,7 @@ const PaymentComponent = React.memo(function PaymentComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/config/config-payment' });
+                    router.push(loginHref('/admin/config/config-payment'));
                 });
             } else {
                 console.error('Erro ao salvar API', error);
@@ -236,7 +237,7 @@ const PaymentComponent = React.memo(function PaymentComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/config/config-payment' });
+                    router.push(loginHref('/admin/config/config-payment'));
                 });
             } else {
                 console.error('Erro ao excluir API', error);
@@ -281,7 +282,7 @@ const PaymentComponent = React.memo(function PaymentComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/config/config-payment' });
+                    router.push(loginHref('/admin/config/config-payment'));
                 });
             } else {
                 console.error('Erro ao alterar status da API', error);
@@ -433,7 +434,7 @@ const PaymentComponent = React.memo(function PaymentComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/config/config-payment' });
+                    router.push(loginHref('/admin/config/config-payment'));
                 });
             } else {
                 console.error('Erro ao salvar método', error);
@@ -460,7 +461,7 @@ const PaymentComponent = React.memo(function PaymentComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/config/config-payment' });
+                    router.push(loginHref('/admin/config/config-payment'));
                 });
             } else {
                 console.error('Erro ao excluir método', error);
@@ -497,7 +498,7 @@ const PaymentComponent = React.memo(function PaymentComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/config/config-payment' });
+                    router.push(loginHref('/admin/config/config-payment'));
                 });
             } else {
                 console.error('Erro ao alterar status do método', error);

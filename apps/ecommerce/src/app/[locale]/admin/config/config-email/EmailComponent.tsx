@@ -11,6 +11,7 @@ import { IEmailApiTranslated, ITriggerEmail, EmailApiFormState, TriggerEmailForm
 import { apiFetch, extractData } from '@/lib/utils';
 import { useRouter } from '@/i18n/navigation';
 import { Button } from '@/components/ui/button';
+import { loginHref } from '@/i18n/routing';
 
 
 const EmailComponent = React.memo(function EmailComponent() {
@@ -63,7 +64,7 @@ const EmailComponent = React.memo(function EmailComponent() {
 
                 if (error.status === 401 || error.status === 403) {
                     showAlert('danger', tCommon('sessionExpired'), () => {
-                        router.push({ pathname: '/login?callback=/admin/config/config-email' });
+                        router.push(loginHref('/admin/config/config-email'));
                     });
                 } else {
                     console.error('Erro ao carregar configurações de email', error);
@@ -144,7 +145,7 @@ const EmailComponent = React.memo(function EmailComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/config/config-email' });
+                    router.push(loginHref('/admin/config/config-email'));
                 });
             } else {
                 console.error('Erro ao salvar API', error);
@@ -171,7 +172,7 @@ const EmailComponent = React.memo(function EmailComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/config/config-email' });
+                    router.push(loginHref('/admin/config/config-email'));
                 });
             } else {
                 console.error('Erro ao excluir API', error);
@@ -216,7 +217,7 @@ const EmailComponent = React.memo(function EmailComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/config/config-email' });
+                    router.push(loginHref('/admin/config/config-email'));
                 });
             } else {
                 console.error('Erro ao alterar status da API', error);
@@ -304,7 +305,7 @@ const EmailComponent = React.memo(function EmailComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/config/config-email' });
+                    router.push(loginHref('/admin/config/config-email'));
                 });
             } else {
                 console.error('Erro ao salvar trigger', error);
@@ -331,7 +332,7 @@ const EmailComponent = React.memo(function EmailComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/config/config-email' });
+                    router.push(loginHref('/admin/config/config-email'));
                 });
             } else {
                 console.error('Erro ao excluir trigger', error);
@@ -368,7 +369,7 @@ const EmailComponent = React.memo(function EmailComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/config/config-email' });
+                    router.push(loginHref('/admin/config/config-email'));
                 });
             } else {
                 console.error('Erro ao alterar status do trigger', error);

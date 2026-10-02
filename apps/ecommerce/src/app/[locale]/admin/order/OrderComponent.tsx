@@ -16,6 +16,7 @@ import Pagination from '@/components/Pagination/Pagination';
 import { ORDER_STATUSES, ADMIN_PAGINATION_DEFAULT } from '@/lib/constants';
 import { STATUS_TO_EMAIL } from '@/lib/email/order-emails';
 import { Button } from '@/components/ui/button';
+import { loginHref } from '@/i18n/routing';
 
 
 function OrderComponent() {
@@ -74,7 +75,7 @@ function OrderComponent() {
 
             if (status === 401 || status === 403) {
                 showAlert('danger', message, () => {
-                    router.push({ pathname: '/login?callback=/admin/order' });
+                    router.push(loginHref('/admin/order'));
                 });
                 return;
             }
@@ -148,7 +149,7 @@ function OrderComponent() {
 
             if (status === 401 || status === 403) {
                 showAlert('danger', message, () => {
-                    router.push({ pathname: '/login?callback=/admin/order' });
+                    router.push(loginHref('/admin/order'));
                 });
                 return;
             }

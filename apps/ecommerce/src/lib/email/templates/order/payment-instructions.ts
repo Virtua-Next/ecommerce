@@ -2,6 +2,7 @@ import { DEFAULT_LANGUAGE } from "@/lib/constants";
 import { formatDate, formatPrice } from "@/lib/utils";
 import { createTranslator } from 'next-intl';
 
+
 const paymentInstructionsTemplate = (data: any, t: any) => {
     const isPix = data.paymentMethod === 'pix';
     const isBoleto = data.paymentMethod === 'boleto';

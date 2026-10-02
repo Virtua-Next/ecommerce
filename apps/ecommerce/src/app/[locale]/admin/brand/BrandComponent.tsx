@@ -20,6 +20,7 @@ import { useRouter, Link } from '@/i18n/navigation'
 import { useToast } from '@/components/ToastSystem';
 import Pagination from '@/components/Pagination/Pagination';
 import { Button } from '@/components/ui/button';
+import { loginHref } from '@/i18n/routing';
 
 
 const NOTHING_TOUCHED: Record<SupportedLanguage, boolean> = SUPPORTED_LANGUAGES.reduce(
@@ -67,7 +68,7 @@ const BrandComponent = React.memo(function BrandComponent() {
 
                 if (error.status === 401 || error.status === 403) {
                     showAlert('danger', tCommon('sessionExpired'), () => {
-                        router.push({ pathname: '/login?callback=/admin/brand' });
+                        router.push(loginHref('/admin/brand'));
                     });
                 } else {
                     console.error('error loading brands', error);
@@ -206,7 +207,7 @@ const BrandComponent = React.memo(function BrandComponent() {
             }
             else if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/brand' });
+                    router.push(loginHref('/admin/brand'));
                 });
             } else {
                 console.error('Error saving brand', error);
@@ -234,7 +235,7 @@ const BrandComponent = React.memo(function BrandComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/brand' });
+                    router.push(loginHref('/admin/brand'));
                 });
             } else {
                 console.error('Error deleting brand', error);
@@ -263,7 +264,7 @@ const BrandComponent = React.memo(function BrandComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/brand' });
+                    router.push(loginHref('/admin/brand'));
                 });
             } else {
                 console.error('Error activating/deactivating brand', error);
@@ -330,7 +331,7 @@ const BrandComponent = React.memo(function BrandComponent() {
                 setShowMetadataModal(true);
             } else if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/brand' });
+                    router.push(loginHref('/admin/brand'));
                 });
             } else {
                 console.error('Error opening metadata modal', error);
@@ -374,7 +375,7 @@ const BrandComponent = React.memo(function BrandComponent() {
             if (isMountedRef.current) {
                 if (error.status === 401 || error.status === 403) {
                     showAlert('danger', tCommon('sessionExpired') ?? error.message, () => {
-                        router.push({ pathname: '/login?callback=/admin/brand' });
+                        router.push(loginHref('/admin/brand'));
                     });
                 } else {
                     console.error('Error saving metadata', error);
@@ -405,7 +406,7 @@ const BrandComponent = React.memo(function BrandComponent() {
 
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/brand' });
+                    router.push(loginHref('/admin/brand'));
                 });
             } else {
                 console.error('Error deleting metadata', error);

@@ -21,6 +21,7 @@ import { useRouter, Link } from '@/i18n/navigation'
 import { useToast } from '@/components/ToastSystem';
 import Pagination from '@/components/Pagination/Pagination';
 import { Button } from '@/components/ui/button';
+import { loginHref } from '@/i18n/routing';
 
 
 const TARGET_TYPE = 'category';
@@ -70,7 +71,7 @@ const CategoryComponent = React.memo(function CategoryComponent() {
 
                 if (error.status === 401 || error.status === 403) {
                     showAlert('danger', tCommon('sessionExpired'), () => {
-                        router.push({ pathname: '/login?callback=/admin/category' });
+                        router.push(loginHref('/admin/category'));
                     });
                 } else {
                     console.error('error loading categories', error);
@@ -209,7 +210,7 @@ const CategoryComponent = React.memo(function CategoryComponent() {
             }
             else if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/category' });
+                    router.push(loginHref('/admin/category'));
                 });
             } else {
                 console.error('Error saving category', error);
@@ -237,7 +238,7 @@ const CategoryComponent = React.memo(function CategoryComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/category' });
+                    router.push(loginHref('/admin/category'));
                 });
             } else {
                 console.error('Error deleting category', error);
@@ -266,7 +267,7 @@ const CategoryComponent = React.memo(function CategoryComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/category' });
+                    router.push(loginHref('/admin/category'));
                 });
             } else {
                 console.error('Error activating/deactivating category', error);
@@ -333,7 +334,7 @@ const CategoryComponent = React.memo(function CategoryComponent() {
                 setShowMetadataModal(true);
             } else if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/category' });
+                    router.push(loginHref('/admin/category'));
                 });
             } else {
                 console.error('Error opening metadata modal', error);
@@ -377,7 +378,7 @@ const CategoryComponent = React.memo(function CategoryComponent() {
             if (isMountedRef.current) {
                 if (error.status === 401 || error.status === 403) {
                     showAlert('danger', tCommon('sessionExpired') ?? error.message, () => {
-                        router.push({ pathname: '/login?callback=/admin/category' });
+                        router.push(loginHref('/admin/category'));
                     });
                 } else {
                     console.error('Error saving metadata', error);
@@ -408,7 +409,7 @@ const CategoryComponent = React.memo(function CategoryComponent() {
 
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/category' });
+                    router.push(loginHref('/admin/category'));
                 });
             } else {
                 console.error('Error deleting metadata', error);

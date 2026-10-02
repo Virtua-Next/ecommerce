@@ -9,6 +9,7 @@ import { useRouter } from '@/i18n/navigation'
 import { THEMES, THEME_COLORS } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { FaSave } from "react-icons/fa";
+import { loginHref } from '@/i18n/routing';
 
 
 export default function ThemeComponent() {
@@ -56,7 +57,7 @@ export default function ThemeComponent() {
                 if (!isMountedRef.current) return;
                 if (error.status === 401 || error.status === 403) {
                     showAlert('danger', tCommon('sessionExpired'), () => {
-                        router.push({ pathname: '/login?callback=/admin/theme' });
+                        router.push(loginHref('/admin/theme'));
                     });
                 } else if (error.status === 409) {
                     showAlert('warning', t('noDataChanged') ?? error.message);

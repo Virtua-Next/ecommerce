@@ -23,6 +23,7 @@ import { useRouter } from '@/i18n/navigation'
 import { useToast } from '@/components/ToastSystem';
 import Pagination from '@/components/Pagination/Pagination';
 import { Button } from '@/components/ui/button';
+import { loginHref } from '@/i18n/routing';
 
 
 const TARGET_TYPE = 'product';
@@ -129,7 +130,7 @@ const ProductComponent = React.memo(function ProductComponent() {
 
                 if (error.status === 401 || error.status === 403) {
                     showAlert('danger', tCommon('sessionExpired'), () => {
-                        router.push({ pathname: '/login?callback=/admin/product' });
+                        router.push(loginHref('/admin/product'));
                     });
                 } else {
                     console.error('error loading products', error);
@@ -316,9 +317,7 @@ const ProductComponent = React.memo(function ProductComponent() {
                 showAlert('warning', t('alerts.saveError'), () => setShowModal(false));
             }
             else if (error.status === 401 || error.status === 403) {
-                showAlert('danger', tCommon('sessionExpired'), () => {
-                    window.location.href = '/login?callback=/admin/category';
-                });
+                showAlert('danger', tCommon('sessionExpired'), () => { router.push(loginHref('/admin/product')); });
             } else {
                 console.error('Error saving category', error);
                 showAlert('danger', t('alerts.loadForEditError') ?? error.message);
@@ -347,7 +346,7 @@ const ProductComponent = React.memo(function ProductComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/product' });
+                    router.push(loginHref('/admin/product'));
                 });
             } else {
                 console.error('Error deleting product', error);
@@ -377,7 +376,7 @@ const ProductComponent = React.memo(function ProductComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/product' });
+                    router.push(loginHref('/admin/product'));
                 });
             } else {
                 console.error('Error activating/deactivating product', error);
@@ -444,7 +443,7 @@ const ProductComponent = React.memo(function ProductComponent() {
                 setShowMetadataModal(true);
             } else if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/product' });
+                    router.push(loginHref('/admin/product'));
                 });
             } else {
                 console.error('Error opening metadata modal', error);
@@ -487,7 +486,7 @@ const ProductComponent = React.memo(function ProductComponent() {
             if (isMountedRef.current) {
                 if (error.status === 401 || error.status === 403) {
                     showAlert('danger', tCommon('sessionExpired') ?? error.message, () => {
-                        router.push({ pathname: '/login?callback=/admin/product' });
+                        router.push(loginHref('/admin/product'));
                     });
                 } else {
                     console.error('Error saving metadata', error);
@@ -519,7 +518,7 @@ const ProductComponent = React.memo(function ProductComponent() {
 
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/product' });
+                    router.push(loginHref('/admin/product'));
                 });
             } else {
                 console.error('Error deleting metadata', error);
@@ -677,13 +676,13 @@ const ProductComponent = React.memo(function ProductComponent() {
                             <div>
                                 <label className="block text-sm font-medium mb-1">{tCommon('costPrice')} ({config?.currency}) <span className="text-red-500">*</span></label>
                                 {/* <input type="number" step="0.01" min="0" className="w-full p-2 border dark:border-gray-700 rounded dark:bg-gray-700" value={form.cost_price ?? ''} onChange={(e) => setForm({ ...form, cost_price: parseFloat(e.target.value) || 0 })} required /> */}
-                                <input type="number" step="0.01" min="0" className="w-full p-2 border dark:border-gray-700 rounded dark:bg-gray-700" value={form.cost_price ?? ''} onChange={(e) => setForm({ ...form, cost_price: e.target.value ? parseFloat(e.target.value) : null })}  required />
+                                <input type="number" step="0.01" min="0" className="w-full p-2 border dark:border-gray-700 rounded dark:bg-gray-700" value={form.cost_price ?? ''} onChange={(e) => setForm({ ...form, cost_price: e.target.value ? parseFloat(e.target.value) : null })} required />
                             </div>
 
                             <div>
                                 <label className="block text-sm font-medium mb-1">{tCommon('price')} ({config?.currency}) <span className="text-red-500">*</span></label>
                                 {/* <input type="number" step="0.01" min="0" className="w-full p-2 border dark:border-gray-700 rounded dark:bg-gray-700" value={form.price ?? ''} onChange={(e) => setForm({ ...form, price: parseFloat(e.target.value) || 0 })} required /> */}
-                                <input type="number" step="0.01" min="0" className="w-full p-2 border dark:border-gray-700 rounded dark:bg-gray-700" value={form.price ?? ''} onChange={(e) => setForm({ ...form, price: e.target.value ? parseFloat(e.target.value) : null })}  required />
+                                <input type="number" step="0.01" min="0" className="w-full p-2 border dark:border-gray-700 rounded dark:bg-gray-700" value={form.price ?? ''} onChange={(e) => setForm({ ...form, price: e.target.value ? parseFloat(e.target.value) : null })} required />
                             </div>
 
                             <div>

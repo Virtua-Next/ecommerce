@@ -20,6 +20,7 @@ import { PlaceholderImage } from '@/components/PlaceholderImage/PlaceholderImage
 import { useRouter, Link } from '@/i18n/navigation'
 import { useToast } from '@/components/ToastSystem';
 import { Button } from '@/components/ui/button';
+import { loginHref } from '@/i18n/routing';
 
 
 const TARGET_TYPE = 'page';
@@ -66,7 +67,7 @@ const PageComponent = React.memo(function PageComponent() {
 
                 if (error.status === 401 || error.status === 403) {
                     showAlert('danger', tCommon('sessionExpired'), () => {
-                        router.push({ pathname: '/login?callback=/admin/page' });
+                        router.push(loginHref('/admin/page'));
                     });
                 } else {
                     console.error('error loading pages', error);
@@ -209,7 +210,7 @@ const PageComponent = React.memo(function PageComponent() {
             }
             else if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/page' });
+                    router.push(loginHref('/admin/page'));
                 });
             } else {
                 console.error('Error saving page', error);
@@ -237,7 +238,7 @@ const PageComponent = React.memo(function PageComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/page' });
+                    router.push(loginHref('/admin/page'));
                 });
             } else {
                 console.error('Error deleting page', error);
@@ -266,7 +267,7 @@ const PageComponent = React.memo(function PageComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/page' });
+                    router.push(loginHref('/admin/page'));
                 });
             } else {
                 console.error('Error activating/deactivating page', error);
@@ -333,7 +334,7 @@ const PageComponent = React.memo(function PageComponent() {
                 setShowMetadataModal(true);
             } else if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/page' });
+                    router.push(loginHref('/admin/page'));
                 });
             } else {
                 console.error('Error opening metadata modal', error);
@@ -375,7 +376,7 @@ const PageComponent = React.memo(function PageComponent() {
             if (isMountedRef.current) {
                 if (error.status === 401 || error.status === 403) {
                     showAlert('danger', tCommon('sessionExpired') ?? error.message, () => {
-                        router.push({ pathname: '/login?callback=/admin/page' });
+                        router.push(loginHref('/admin/page'));
                     });
                 } else {
                     console.error('Error saving metadata', error);
@@ -406,7 +407,7 @@ const PageComponent = React.memo(function PageComponent() {
 
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/page' });
+                    router.push(loginHref('/admin/page'));
                 });
             } else {
                 console.error('Error deleting metadata', error);

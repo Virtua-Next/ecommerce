@@ -15,6 +15,7 @@ import { useRouter } from '@/i18n/navigation';
 import { useToast } from '@/components/ToastSystem';
 import { Button } from '@/components/ui/button';
 import { FaSave } from 'react-icons/fa';
+import { loginHref } from '@/i18n/routing';
 
 
 const TARGET_TYPE = 'config';
@@ -91,7 +92,7 @@ const ConfigComponent = React.memo(function ConfigComponent() {
 
                 if (error.status === 401 || error.status === 403) {
                     showAlert('danger', tCommon('sessionExpired'), () => {
-                        router.push({ pathname: '/login?callback=/admin/config/config-site' });
+                        router.push(loginHref('/admin/config/config-site'));
                     });
                 } else {
                     console.error('Error loading config metadata', error);
@@ -183,7 +184,7 @@ const ConfigComponent = React.memo(function ConfigComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/config/config-site' });
+                    router.push(loginHref('/admin/config/config-site'));
                 });
             } else if (error.status === 409) {
                 showAlert('warning', t('alerts.noChanges') ?? error.message);
@@ -213,7 +214,7 @@ const ConfigComponent = React.memo(function ConfigComponent() {
             if (!isMountedRef.current) return false;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/config/config-site' });
+                    router.push(loginHref('/admin/config/config-site'));
                 });
             } else {
                 console.error('Error saving config metadata', error);

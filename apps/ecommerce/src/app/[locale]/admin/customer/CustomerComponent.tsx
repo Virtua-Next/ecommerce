@@ -17,6 +17,7 @@ import Pagination from '@/components/Pagination/Pagination';
 import { AddressFields } from '@/components/AddressFields/AddressFields';
 import { Button } from '@/components/ui/button';
 import { Label } from "@/components/ui/label";
+import { loginHref } from '@/i18n/routing';
 
 
 type AddressFormMode = 'create' | 'edit';
@@ -91,7 +92,7 @@ const CustomerComponent = React.memo(function CustomerComponent() {
 
             if (err.status === 401 || err.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/customer' });
+                    router.push(loginHref('/admin/customer'));
                 });
             } else {
                 console.error('Failed to fetch customers', err);
@@ -224,7 +225,7 @@ const CustomerComponent = React.memo(function CustomerComponent() {
             const message = key ? tErrors(key) : err.message;
             if (status === 401 || status === 403) {
                 showAlert('danger', message, () => {
-                    router.push({ pathname: '/login?callback=/admin/customer' });
+                    router.push(loginHref('/admin/customer'));
                 });
                 return;
             }
@@ -252,7 +253,7 @@ const CustomerComponent = React.memo(function CustomerComponent() {
             const message = key ? tErrors(key) : err.message;
             if (status === 401 || status === 403) {
                 showAlert('danger', message, () => {
-                    router.push({ pathname: '/login?callback=/admin/customer' });
+                    router.push(loginHref('/admin/customer'));
                 });
                 return;
             }
@@ -282,7 +283,7 @@ const CustomerComponent = React.memo(function CustomerComponent() {
             const message = key ? tErrors(key) : err.message;
             if (status === 401 || status === 403) {
                 showAlert('danger', message, () => {
-                    router.push({ pathname: '/login?callback=/admin/customer' });
+                    router.push(loginHref('/admin/customer'));
                 });
                 return;
             }
@@ -366,7 +367,7 @@ const CustomerComponent = React.memo(function CustomerComponent() {
             const message = key ? tErrors(key) : err.message;
             if (status === 401 || status === 403) {
                 showAlert('danger', message, () => {
-                    router.push({ pathname: '/login?callback=/admin/customer' });
+                    router.push(loginHref('/admin/customer'));
                 });
                 return;
             }
@@ -394,7 +395,7 @@ const CustomerComponent = React.memo(function CustomerComponent() {
             const message = key ? tErrors(key) : err.message;
             if (status === 401 || status === 403) {
                 showAlert('danger', message, () => {
-                    router.push({ pathname: '/login?callback=/admin/customer' });
+                    router.push(loginHref('/admin/customer'));
                 });
                 return;
             }

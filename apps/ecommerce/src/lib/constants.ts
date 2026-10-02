@@ -152,31 +152,31 @@ export const EMAIL_SUBJECTS: Record<string, Record<SupportedLanguage, string>> =
     },
     order_confirmation: {
         'pt-BR': 'Confirmação de Pedido #{orderId}',
-        'en-US': 'Order Confirmation #{orderId}',
+        'en-US': 'Order Confirmation #{orderId}'
     },
     order_confirmation_transfer: {
         'pt-BR': 'Pedido #{orderId} recebido — Aguardando pagamento',
-        'en-US': 'Order #{orderId} received — Awaiting payment',
+        'en-US': 'Order #{orderId} received — Awaiting payment'
     },
     order_confirmation_pix_offline: {
         'pt-BR': 'Pedido #{orderId} recebido — Aguardando pagamento',
-        'en-US': 'Order #{orderId} received — Awaiting payment',
+        'en-US': 'Order #{orderId} received — Awaiting payment'
     },
     order_shipped: {
         'pt-BR': 'Pedido #{orderId} Enviado',
-        'en-US': 'Order #{orderId} Shipped',
+        'en-US': 'Order #{orderId} Shipped'
     },
     order_canceled: {
         'pt-BR': 'Pedido #{orderId} Cancelado',
-        'en-US': 'Order #{orderId} Canceled',
+        'en-US': 'Order #{orderId} Canceled'
     },
     payment_error: {
         'pt-BR': 'Pedido #{orderId}. Erro no pagamento',
-        'en-US': 'Order #{orderId}. Payment error',
+        'en-US': 'Order #{orderId}. Payment error'
     },
     payment_instructions: {
         'pt-BR': 'Instruções para pagamento do Pedido #{orderId}.',
-        'en-US': 'Payment instructions for Order #{orderId}.',
+        'en-US': 'Payment instructions for Order #{orderId}.'
     },
     support: {
         'pt-BR': 'Suporte ao cliente',

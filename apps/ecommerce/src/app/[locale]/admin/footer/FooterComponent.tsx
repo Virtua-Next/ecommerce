@@ -15,6 +15,7 @@ import { FooterTypesType, SupportedLanguage } from '@/lib/types/generic'
 import { useRouter } from '@/i18n/navigation'
 import { useToast } from '@/components/ToastSystem';
 import { Button } from '@/components/ui/button';
+import { loginHref } from '@/i18n/routing';
 
 
 interface FooterFormState {
@@ -81,7 +82,7 @@ const FooterComponent = React.memo(function FooterComponent() {
 
                 if (error.status === 401 || error.status === 403) {
                     showAlert('danger', tCommon('sessionExpired'), () => {
-                        router.push({ pathname: '/login?callback=/admin/footer' });
+                        router.push(loginHref('/admin/footer'));
                     });
                 } else {
                     console.error('error loading slides', error);
@@ -289,7 +290,7 @@ const FooterComponent = React.memo(function FooterComponent() {
             }
             else if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/footer' });
+                    router.push(loginHref('/admin/footer'));
                 });
             } else {
                 console.error('Error saving footer', error);
@@ -317,7 +318,7 @@ const FooterComponent = React.memo(function FooterComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/footer' });
+                    router.push(loginHref('/admin/footer'));
                 });
             } else {
                 console.error('Error deleting footer', error);
@@ -346,7 +347,7 @@ const FooterComponent = React.memo(function FooterComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/footer' });
+                    router.push(loginHref('/admin/footer'));
                 });
             } else {
                 console.error('Error activating/deactivating footer', error);

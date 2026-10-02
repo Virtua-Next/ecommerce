@@ -1,0 +1,200 @@
+{
+    "------------------------  ORDER  -----------------------": "注文",
+    "TemplateOrderCommon": {
+        "fallbackSiteName": "オンラインショップ",
+        "sections": {
+            "customer": "顧客",
+            "delivery": "配送",
+            "order": "注文",
+            "bankInfo": "支払い詳細",
+            "tracking": "配送追跡"
+        },
+        "bankInfo": {
+            "instruction": "以下の金額をお振り込みいただき、注文を確認するために振込明細をお送りください。",
+            "bank": "銀行",
+            "agency": "支店",
+            "account": "口座",
+            "beneficiary": "受取人",
+            "cnpj": "納税者番号",
+            "pixKey": "PIXキー",
+            "totalToPay": "振込金額"
+        },
+        "fields": {
+            "name": "氏名",
+            "email": "メールアドレス",
+            "phone": "電話番号",
+            "carrier": "配送業者",
+            "address": "住所",
+            "zip": "郵便番号",
+            "pickup": "店舗受取",
+            "number": "番号",
+            "date": "日付",
+            "status": "ステータス",
+            "payment": "支払い",
+            "shippedDate": "発送日",
+            "trackingNumber": "追跡番号",
+            "errorCode": "エラーコード",
+            "canceledDate": "キャンセル日",
+            "cancelReason": "理由"
+        },
+        "status": {
+            "pending": "保留中",
+            "shipped": "発送済み",
+            "paymentError": "支払いエラー",
+            "canceled": "キャンセル済み"
+        },
+        "table": {
+            "sku": "SKU",
+            "product": "商品",
+            "unitPrice": "単価",
+            "quantity": "数量",
+            "total": "合計"
+        },
+        "totals": {
+            "subtotal": "小計",
+            "shipping": "送料",
+            "interest": "利息",
+            "installments": "分割払い",
+            "discount": "割引",
+            "total": "合計"
+        },
+        "observations": "備考",
+        "footer": {
+            "thanks": "ご購入ありがとうございます！",
+            "rights": "{year} © {siteName}。All rights reserved."
+        }
+    },
+    "-----------------  ORDER_CONFIRMATION  -----------------": "注文確認",
+    "TemplateOrderConfirmation": {
+        "documentTitle": "注文領収書 #{orderId}",
+        "orderReceipt": "注文領収書",
+        "sections": {
+            "pixInfo": "PIX支払い"
+        },
+        "pixInfo": {
+            "instruction": "以下のQRコードをスキャンするか、コードをコピーして銀行アプリでお支払いください。支払いが確認されると注文が確定します。",
+            "qrCodeAlt": "PIX支払い用QRコード",
+            "copyPasteLabel": "コピー＆ペーストコード",
+            "keyLabel": "PIXキー",
+            "holderLabel": "支払先",
+            "txidLabel": "照会番号",
+            "totalToPay": "支払金額",
+            "expiresAt": "有効期限"
+        }
+    },
+    "-------------------  ORDER_SHIPPED  --------------------": "注文発送済み",
+    "TemplateOrderShipped": {
+        "documentTitle": "注文 #{orderId} 発送済み",
+        "orderShipped": "注文発送済み",
+        "tracking": {
+            "title": "ご注文の商品を発送しました！",
+            "instruction": "以下のコードを使用して配送状況を追跡できます：",
+            "trackButton": "配送状況を追跡"
+        }
+    },
+    "---------------  ORDER_PAYMENT_ERROR  ------------------": "注文支払いエラー",
+    "TemplateOrderPaymentError": {
+        "documentTitle": "支払いに関する問題 - 注文 #{orderId}",
+        "orderPaymentError": "支払いが完了していません",
+        "paymentError": {
+            "title": "お支払いを処理できませんでした",
+            "instruction": "以下の詳細をご確認のうえ、もう一度お試しください。問題が解決しない場合は、サポートチームまでお問い合わせください。",
+            "retryButton": "もう一度支払う",
+            "supportText": "お困りですか？お問い合わせください："
+        }
+    },
+    "-------------------  ORDER_CANCELED  --------------------": "注文キャンセル",
+    "TemplateOrderCanceled": {
+        "documentTitle": "注文 #{orderId} キャンセル済み",
+        "orderCanceled": "注文キャンセル済み",
+        "cancelInfo": {
+            "title": "ご注文はキャンセルされました",
+            "instruction": "キャンセルされた注文の詳細は以下のとおりです。ご不明な点がございましたら、サポートチームまでお問い合わせください。",
+            "reasonLabel": "キャンセル理由",
+            "refundInfo": "お支払い済みの場合、返金はご利用のお支払い方法に応じて処理されます。",
+            "supportText": "お困りですか？お問い合わせください："
+        }
+    },
+    "---------------------  REGISTER  ------------------------": "登録",
+    "TemplateRegister": {
+        "documentTitle": "登録確認",
+        "title": "登録を確認してください",
+        "greeting": "{userName} 様、",
+        "thankYou": "{siteName}へのご登録ありがとうございます。",
+        "instruction": "登録を完了してアカウントを有効化するには、以下のリンクをクリックしてください：",
+        "button": "登録を確認",
+        "fallbackLink": "ボタンが機能しない場合は、以下のリンクをコピーしてブラウザに貼り付けてください：",
+        "ignore": "この登録に心当たりがない場合は、このメールを無視してください。",
+        "footer": {
+            "automated": "これは自動送信メールです。このメールアドレスは監視されていないため、返信しないでください。"
+        }
+    },
+    "------------------  RESET_PASSWORD  ---------------------": "パスワードリセット",
+    "TemplateResetPassword": {
+        "documentTitle": "パスワード変更",
+        "title": "パスワード変更",
+        "greeting": "{userName} 様、",
+        "reason": "{siteName}でパスワードのリセットがリクエストされたため、このメールをお送りしています。",
+        "notYou": "心当たりがない場合は、このメッセージを無視してください。何も行われません。",
+        "instruction": "ご本人による操作の場合は、以下のリンクをクリックして新しいパスワードを設定してください。",
+        "button": "パスワードをリセット",
+        "fallbackLink": "ボタンが機能しない場合は、以下のリンクをコピーしてブラウザに貼り付けてください：",
+        "footer": {
+            "automated": "これは自動送信メールです。このメールアドレスは監視されていないため、返信しないでください。"
+        }
+    },
+    "---------------  PAYMENT_INSTRUCTIONS  ------------------": "支払い手順",
+    "TemplatePaymentInstructions": {
+        "documentTitle": "支払い手順 — 注文 #{orderId}",
+        "fallbackSiteName": "ストア",
+        "paymentInstructions": "支払い手順",
+        "sections": {
+            "customer": "顧客",
+            "order": "注文"
+        },
+        "fields": {
+            "name": "氏名",
+            "email": "メールアドレス",
+            "phone": "電話番号",
+            "number": "番号",
+            "date": "日付",
+            "payment": "支払い",
+            "status": "ステータス"
+        },
+        "status": {
+            "pending": "支払い待ち"
+        },
+        "table": {
+            "sku": "SKU",
+            "product": "商品",
+            "unitPrice": "単価",
+            "quantity": "数量",
+            "total": "合計"
+        },
+        "totals": {
+            "subtotal": "小計",
+            "shipping": "送料",
+            "total": "合計",
+            "discount": "割引"
+        },
+        "payment": {
+            "amountToPay": "支払金額",
+            "expiresAt": "{date}まで有効",
+            "pix": {
+                "title": "PIXで支払う",
+                "instructions": "以下のQRコードを銀行アプリでスキャンするか、PIXコードをコピーして「PIXコピー＆ペースト」オプションに貼り付けてください。",
+                "copyPasteLabel": "PIXコピー＆ペースト"
+            },
+            "boleto": {
+                "title": "銀行振込用紙で支払う",
+                "instructions": "以下のバーコードをコピーして銀行アプリまたはオンラインバンキングからお支払いください。または、ボタンからPDFをダウンロードできます。",
+                "barcodeLabel": "バーコード",
+                "downloadButton": "銀行振込用紙をダウンロード（PDF）"
+            }
+        },
+        "footer": {
+            "thanks": "ご購入ありがとうございます！",
+            "rights": "© {year} {siteName}。All rights reserved."
+        }
+    }
+}

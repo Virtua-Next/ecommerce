@@ -11,6 +11,7 @@ import { useRouter } from '@/i18n/navigation';
 import { useToast } from '@/components/ToastSystem';
 import { AddressFields } from '@/components/AddressFields/AddressFields'
 import { CountryCode } from '@/lib/types/generic'
+import { loginHref } from '@/i18n/routing';
 
 
 interface AddressListProps {
@@ -60,7 +61,7 @@ export default function AddressList({ initialAddresses }: AddressListProps) {
             const message = key ? tErrors(key) : err.message;
             if (status === 401 || status === 403) {
                 showAlert('danger', message, () => {
-                    router.push({ pathname: '/login?callback=/account/address' });
+                    router.push(loginHref('/account/address'));
                 });
                 return;
             }
@@ -95,7 +96,7 @@ export default function AddressList({ initialAddresses }: AddressListProps) {
             const message = key ? tErrors(key) : err.message;
             if (status === 401 || status === 403) {
                 showAlert('danger', message, () => {
-                    router.push({ pathname: '/login?callback=/account/address' });
+                    router.push(loginHref('/account/address'));
                 });
                 return;
             }
@@ -171,7 +172,7 @@ export default function AddressList({ initialAddresses }: AddressListProps) {
             }
             if (status === 401 || status === 403) {
                 showAlert('danger', message, () => {
-                    router.push({ pathname: '/login?callback=/account/address' });
+                    router.push(loginHref('/account/address'));
                 });
                 return;
             }

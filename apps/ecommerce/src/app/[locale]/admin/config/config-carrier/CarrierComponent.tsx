@@ -15,6 +15,7 @@ import { SupportedLanguage } from '@/lib/types/generic';
 import { useRouter } from '@/i18n/navigation';
 import { useToast } from '@/components/ToastSystem';
 import { Button } from '@/components/ui/button';
+import { loginHref } from '@/i18n/routing';
 
 
 const NOTHING_TOUCHED: Record<SupportedLanguage, boolean> = SUPPORTED_LANGUAGES.reduce(
@@ -91,7 +92,7 @@ const CarrierComponent = React.memo(function CarrierComponent() {
 
                 if (error.status === 401 || error.status === 403) {
                     showAlert('danger', tCommon('sessionExpired'), () => {
-                        router.push({ pathname: '/login?callback=/admin/config/config-carrier' });
+                        router.push(loginHref('/admin/config/config-carrier'));
                     });
                 } else {
                     console.error('Error fetching carriers:', error);
@@ -224,7 +225,7 @@ const CarrierComponent = React.memo(function CarrierComponent() {
                 showAlert('warning', t('alerts.saveError'), () => setShowModal(false));
             } else if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/config/config-carrier' });
+                    router.push(loginHref('/admin/config/config-carrier'));
                 });
             } else {
                 console.error('Error saving carrier', error);
@@ -251,7 +252,7 @@ const CarrierComponent = React.memo(function CarrierComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/config/config-carrier' });
+                    router.push(loginHref('/admin/config/config-carrier'));
                 });
             } else {
                 console.error('Error deleting carrier', error);
@@ -278,7 +279,7 @@ const CarrierComponent = React.memo(function CarrierComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/config/config-carrier' });
+                    router.push(loginHref('/admin/config/config-carrier'));
                 });
             } else {
                 console.error('Error changing carrier status', error);
@@ -309,7 +310,7 @@ const CarrierComponent = React.memo(function CarrierComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/config/config-carrier' });
+                    router.push(loginHref('/admin/config/config-carrier'));
                 });
             } else {
                 console.error('Error changing free shipping status', error);

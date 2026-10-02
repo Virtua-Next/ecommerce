@@ -29,6 +29,7 @@ import { IUser } from '@/lib/schemas/user';
 import PixPaymentModal from './PixPaymentModal';
 import { CreateOrderInput } from '@/lib/db/order';
 import { calculateOrderDimensions } from '@/lib/shipping/shipping';
+import { loginHref } from '@/i18n/routing';
 
 
 export default function Checkout() {
@@ -496,7 +497,7 @@ export default function Checkout() {
         } catch (error: any) {
             if (error.status === 401) {
                 showAlert('warning', error.message);
-                router.push({ pathname: '/login?callback=/checkout' });
+                router.push(loginHref('/checkout'));
             }
             const rejectionMessages = t.raw('mercadoPagoRejectionReasons') as Record<string, string>;
             const reason = error.message || 'cc_rejected_other_reason';

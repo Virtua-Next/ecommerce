@@ -17,6 +17,7 @@ import { SupportedLanguage, SlideLocationsType } from '@/lib/types/generic'
 import { useRouter } from '@/i18n/navigation'
 import { useToast } from '@/components/ToastSystem';
 import { Button } from '@/components/ui/button';
+import { loginHref } from '@/i18n/routing';
 
 
 const NOTHING_TOUCHED: Record<SupportedLanguage, boolean> = SUPPORTED_LANGUAGES.reduce(
@@ -58,7 +59,7 @@ const SlideComponent = React.memo(function SlideComponent() {
 
                 if (error.status === 401 || error.status === 403) {
                     showAlert('danger', tCommon('sessionExpired'), () => {
-                        router.push({ pathname: '/login?callback=/admin/slide' });
+                        router.push(loginHref('/admin/slide'));
                     });
                 } else {
                     console.error('error loading slides', error);
@@ -205,7 +206,7 @@ const SlideComponent = React.memo(function SlideComponent() {
             }
             else if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/slide' });
+                    router.push(loginHref('/admin/slide'));
                 });
             } else {
                 console.error('Error saving slide', error);
@@ -233,7 +234,7 @@ const SlideComponent = React.memo(function SlideComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/slide' });
+                    router.push(loginHref('/admin/slide'));
                 });
             } else {
                 console.error('Error deleting slide', error);
@@ -262,7 +263,7 @@ const SlideComponent = React.memo(function SlideComponent() {
             if (!isMountedRef.current) return;
             if (error.status === 401 || error.status === 403) {
                 showAlert('danger', tCommon('sessionExpired'), () => {
-                    router.push({ pathname: '/login?callback=/admin/slide' });
+                    router.push(loginHref('/admin/slide'));
                 });
             } else {
                 console.error('Error activating/deactivating slide', error);

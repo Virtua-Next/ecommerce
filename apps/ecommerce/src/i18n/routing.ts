@@ -1,176 +1,74 @@
 import { defineRouting } from 'next-intl/routing';
 import { SUPPORTED_LANGUAGES, DEFAULT_LANGUAGE } from '@/lib/constants';
+import { SupportedLanguage } from "@/lib/types/generic";
 
+
+type InternalPath = keyof typeof routing.pathnames;
+
+export const loginHref = (callback: InternalPath) => ({
+    pathname: '/login' as const,
+    query: { callback },
+});
+
+// First argument: path used by every language.
+// Second argument: only the exceptions (translated URLs per language).
+const p = (
+    path: string,
+    overrides: Partial<Record<SupportedLanguage, string>> = {}
+): Record<SupportedLanguage, string> =>
+    Object.fromEntries(
+        SUPPORTED_LANGUAGES.map((l) => [l, overrides[l] ?? path])
+    ) as Record<SupportedLanguage, string>;
 
 export const routing = defineRouting({
     locales: SUPPORTED_LANGUAGES,       // locales: ['en-US', 'pt-BR']
     defaultLocale: DEFAULT_LANGUAGE,    // defaultLocale: 'en-US'
+
     pathnames: {
         '/': '/',
-        '/setup': {
-            'en-US': '/setup',
-            'pt-BR': '/instalacao',
-        },
-        '/unauthorized': {
-            'en-US': '/unauthorized',
-            'pt-BR': '/nao-autorizado',
-        },
-        '/page/[slug]': {
-            'en-US': '/page/[slug]',
-            'pt-BR': '/pagina/[slug]',
-        },
-        '/product/[slug]': {
-            'en-US': '/product/[slug]',
-            'pt-BR': '/produto/[slug]',
-        },
-        '/category/[slug]': {
-            'en-US': '/category/[slug]',
-            'pt-BR': '/categoria/[slug]',
-        },
-        '/brand/[slug]': {
-            'en-US': '/brand/[slug]',
-            'pt-BR': '/marca/[slug]',
-        },
-        '/cart': {
-            'en-US': '/cart',
-            'pt-BR': '/carrinho',
-        },
-        '/login?callback=/checkout': {
-            'en-US': '/login?callback=/checkout',
-            'pt-BR': '/entrar?callback=/finalizar-compra',
-        },
-        '/login?callback=/account/profile': {
-            'en-US': '/login?callback=/account/profile',
-            'pt-BR': '/entrar?callback=/conta/perfil',
-        },
-        '/login?callback=/account/address': {
-            'en-US': '/login?callback=/account/address',
-            'pt-BR': '/entrar?callback=/conta/endereco',
-        },
-        '/login?callback=/account/order': {
-            'en-US': '/login?callback=/account/order',
-            'pt-BR': '/entrar?callback=/conta/pedido',
-        },
-        '/checkout': {
-            'en-US': '/checkout',
-            'pt-BR': '/finalizar-compra',
-        },
-        '/checkout/confirm': {
-            'en-US': '/checkout/confirm',
-            'pt-BR': '/finalizar-compra/confirmacao',
-        },
-        '/account': {
-            'en-US': '/account',
-            'pt-BR': '/conta',
-        },
-        '/account/profile': {
-            'en-US': '/account/profile',
-            'pt-BR': '/conta/perfil',
-        },
-        '/account/address': {
-            'en-US': '/account/address',
-            'pt-BR': '/conta/endereco',
-        },
-        '/account/order': {
-            'en-US': '/account/order',
-            'pt-BR': '/conta/pedido',
-        },
-        '/login': {
-            'en-US': '/login',
-            'pt-BR': '/entrar',
-        },
-        '/reset': {
-            'en-US': '/reset',
-            'pt-BR': '/redefinir',
-        },
-        '/reset/password': {
-            'en-US': '/reset/password',
-            'pt-BR': '/redefinir/senha',
-        },
-        '/register': {
-            'en-US': '/register',
-            'pt-BR': '/cadastro',
-        },
-        '/register/confirm': {
-            'en-US': '/register/confirm',
-            'pt-BR': '/cadastro/confirmacao',
-        },
-        '/admin': {
-            'en-US': '/admin',
-            'pt-BR': '/admin',
-        },
-        '/admin/brand': {
-            'en-US': '/admin/brand',
-            'pt-BR': '/admin/marca',
-        },
-        '/admin/category': {
-            'en-US': '/admin/category',
-            'pt-BR': '/admin/categoria',
-        },
-        '/admin/product': {
-            'en-US': '/admin/product',
-            'pt-BR': '/admin/produto',
-        },
-        '/admin/page': {
-            'en-US': '/admin/page',
-            'pt-BR': '/admin/pagina',
-        },
-        '/login?callback=/admin/brand': {
-            'en-US': '/login?callback=/admin/brand',
-            'pt-BR': '/entrar?callback=/admin/marca',
-        },
-        '/login?callback=/admin/category': {
-            'en-US': '/login?callback=/admin/category',
-            'pt-BR': '/entrar?callback=/admin/categoria',
-        },
-        '/login?callback=/admin/product': {
-            'en-US': '/login?callback=/admin/product',
-            'pt-BR': '/entrar?callback=/admin/produto',
-        },
-        '/login?callback=/admin/page': {
-            'en-US': '/login?callback=/admin/page',
-            'pt-BR': '/entrar?callback=/admin/pagina',
-        },
-        '/login?callback=/admin/slide': {
-            'en-US': '/login?callback=/admin/slide',
-            'pt-BR': '/login?callback=/admin/slide',
-        },
-        '/login?callback=/admin/footer': {
-            'en-US': '/login?callback=/admin/footer',
-            'pt-BR': '/login?callback=/admin/rodape',
-        },
-        '/login?callback=/admin/theme': {
-            'en-US': '/login?callback=/admin/theme',
-            'pt-BR': '/login?callback=/admin/tema',
-        },
-        '/login?callback=/admin/config/config-site': {
-            'en-US': '/login?callback=/admin/config/config-site',
-            'pt-BR': '/login?callback=/admin/config/config-site'
-        },
-        '/login?callback=/admin/config/config-carrier': {
-            'en-US': '/login?callback=/admin/config/config-carrier',
-            'pt-BR': '/login?callback=/admin/config/config-transportadora'
-        },
-        '/login?callback=/admin/config/config-payment': {
-            'en-US': '/login?callback=/admin/config/config-payment',
-            'pt-BR': '/login?callback=/admin/config/config-pagamento'
-        },
-        '/login?callback=/admin/config/config-email': {
-            'en-US': '/login?callback=/admin/config/config-email',
-            'pt-BR': '/login?callback=/admin/config/config-email'
-        },
-        '/login?callback=/admin/customer': {
-            'en-US': '/login?callback=/admin/customer',
-            'pt-BR': '/entrar?callback=/admin/cliente',
-        },
-        '/login?callback=/admin/order': {
-            'en-US': '/login?callback=/admin/order',
-            'pt-BR': '/entrar?callback=/admin/pedido',
-        },
-        '/maintenance': {
-            'en-US': '/maintenance',
-            'pt-BR': '/manutencao'
-        }
+        '/setup': p('/setup', { 'pt-BR': '/instalacao' }),
+        '/unauthorized': p('/unauthorized', { 'pt-BR': '/nao-autorizado' }),
+        '/maintenance': p('/maintenance', { 'pt-BR': '/manutencao' }),
+
+        // Storefront
+        '/page/[slug]': p('/page/[slug]', { 'pt-BR': '/pagina/[slug]' }),
+        '/product/[slug]': p('/product/[slug]', { 'pt-BR': '/produto/[slug]' }),
+        '/category/[slug]': p('/category/[slug]', { 'pt-BR': '/categoria/[slug]' }),
+        '/brand/[slug]': p('/brand/[slug]', { 'pt-BR': '/marca/[slug]' }),
+        '/cart': p('/cart', { 'pt-BR': '/carrinho' }),
+        '/checkout': p('/checkout', { 'pt-BR': '/finalizar-compra' }),
+        '/checkout/confirm': p('/checkout/confirm', { 'pt-BR': '/finalizar-compra/confirmacao' }),
+
+        // Customer account
+        '/account': p('/account', { 'pt-BR': '/conta' }),
+        '/account/profile': p('/account/profile', { 'pt-BR': '/conta/perfil' }),
+        '/account/address': p('/account/address', { 'pt-BR': '/conta/endereco' }),
+        '/account/order': p('/account/order', { 'pt-BR': '/conta/pedido' }),
+
+        // Auth
+        '/login': p('/login', { 'pt-BR': '/entrar' }),
+        '/reset': p('/reset', { 'pt-BR': '/redefinir' }),
+        '/reset/password': p('/reset/password', { 'pt-BR': '/redefinir/senha' }),
+        '/register': p('/register', { 'pt-BR': '/cadastro' }),
+        '/register/confirm': p('/register/confirm', { 'pt-BR': '/cadastro/confirmacao' }),
+
+        // Admin
+        '/admin': p('/admin'),
+        '/admin/brand': p('/admin/brand', { 'pt-BR': '/admin/marca' }),
+        '/admin/category': p('/admin/category', { 'pt-BR': '/admin/categoria' }),
+        '/admin/product': p('/admin/product', { 'pt-BR': '/admin/produto' }),
+        '/admin/page': p('/admin/page', { 'pt-BR': '/admin/pagina' }),
+
+        // Admin routes that previously existed only as login callbacks.
+        '/admin/slide': p('/admin/slide'),
+        '/admin/footer': p('/admin/footer', { 'pt-BR': '/admin/rodape' }),
+        '/admin/theme': p('/admin/theme', { 'pt-BR': '/admin/tema' }),
+        '/admin/customer': p('/admin/customer', { 'pt-BR': '/admin/cliente' }),
+        '/admin/order': p('/admin/order', { 'pt-BR': '/admin/pedido' }),
+        '/admin/config/config-site': p('/admin/config/config-site'),
+        '/admin/config/config-carrier': p('/admin/config/config-carrier', { 'pt-BR': '/admin/config/config-transportadora' }),
+        '/admin/config/config-payment': p('/admin/config/config-payment', { 'pt-BR': '/admin/config/config-pagamento' }),
+        '/admin/config/config-email': p('/admin/config/config-email'),
     }
 });
 

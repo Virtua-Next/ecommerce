@@ -12,6 +12,7 @@ import { SUPPORTED_LANGUAGES, LANGUAGE_LABELS } from '@/lib/constants';
 import { SUPPORTED_COUNTRIES, COUNTRY_LABELS } from '@/lib/constants';
 import { SupportedLanguage, CountryCode } from '@/lib/types/generic';
 import { COUNTRY_CONFIGS } from '@/lib/schemas/country-configs';
+import { loginHref } from '@/i18n/routing';
 
 
 function useAbortableRequest() {
@@ -138,7 +139,7 @@ export default function Profile({ initialUser }: UserProps) {
             const message = key ? tErrors(key) : err.message;
             if (status === 401 || status === 403) {
                 showAlert('danger', message, () => {
-                    router.push({ pathname: '/login?callback=/account/profile' });
+                    router.push(loginHref('/account/profile'));
                 });
                 return;
             }
@@ -196,7 +197,7 @@ export default function Profile({ initialUser }: UserProps) {
             const message = key ? tErrors(key) : err.message;
             if (status === 401 || status === 403) {
                 showAlert('danger', message, () => {
-                    router.push({ pathname: '/login?callback=/account/profile' });
+                    router.push(loginHref('/account/profile'));
                 });
                 return;
             }

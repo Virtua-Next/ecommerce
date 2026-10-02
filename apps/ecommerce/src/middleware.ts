@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import createMiddleware from 'next-intl/middleware';
-import { routing } from '@/i18n/routing';
+import { routing, Locale } from '@/i18n/routing';
 import { jwtDecode } from 'jwt-decode'
 import { parseCookies } from 'nookies'
 import { isSystemSetup } from './lib/db/setup';
 import { getCachedConfig } from './lib/cache/config';
-// export const runtime = 'experimental-edge';
 
 
 interface JwtPayload {
@@ -22,6 +21,40 @@ const SETUP_COOKIE_MAX_AGE = 60 * 60 * 24; // 24h
 const MAINT_COOKIE = 'maintenance_status';
 const MAINT_COOKIE_MAX_AGE = 60; // 60 segundos
 
+/**
+ * Tabela construída uma vez: para cada idioma, as rotas estáticas do routing
+ * com o caminho traduzido (external) e o nome interno (internal).
+ * Ordenada pelo caminho mais longo primeiro, para que '/conta/perfil'
+ * ganhe de '/conta'.
+ */
+type Route = { internal: string; external: string };
+
+const routesByLocale = {} as Record<Locale, Route[]>;
+for (const locale of routing.locales) {
+    routesByLocale[locale] = Object.entries(routing.pathnames)
+        .filter(([internal]) => internal !== '/' && !internal.includes('['))
+        .map(([internal, localized]) => ({
+            internal,
+            external: typeof localized === 'string'
+                ? localized
+                : (localized as Record<Locale, string>)[locale] ?? internal,
+        }))
+        .sort((a, b) => b.external.length - a.external.length);
+}
+
+/**
+ * '/finalizar-compra' (pt-BR) -> '/checkout'
+ * '/conta/pedido/123' (pt-BR) -> '/account/order/123'
+ * Caminhos desconhecidos são devolvidos como estão.
+ */
+function toInternalPath(path: string, locale: Locale): string {
+    for (const { internal, external } of routesByLocale[locale]) {
+        if (path === external) return internal;
+        if (path.startsWith(`${external}/`)) return internal + path.slice(external.length);
+    }
+    return path;
+}
+
 function stripLocale(pathname: string) {
     for (const locale of routing.locales) {
         if (pathname === `/${locale}`) return { locale, path: '/' };
@@ -33,16 +66,26 @@ function stripLocale(pathname: string) {
 }
 
 function localizedUrl(path: string, locale: string, request: NextRequest) {
-    const prefixed = locale === routing.defaultLocale ? path : `/${locale}${path}`;
+    // routing uses localePrefix 'always': every URL carries the locale
+    const prefixed = path === '/' ? `/${locale}` : `/${locale}${path}`;
 
     return new URL(prefixed, request.url);
+}
+
+/** Redireciona para o login levando o caminho INTERNO como callback (independe de idioma) */
+function loginRedirect(request: NextRequest, locale: Locale, internalPath: string) {
+    const url = localizedUrl('/login', locale, request);
+    url.searchParams.set('callback', internalPath);
+    return NextResponse.redirect(url);
 }
 
 export default async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl
     const cleanPathName = pathname.trim();
-    const { locale, path } = stripLocale(cleanPathName);
-    const encodedCallback = encodeURIComponent(cleanPathName);
+    const { locale, path: localizedPath } = stripLocale(cleanPathName);
+
+    // A partir daqui, todas as comparações usam o nome interno da rota (em inglês)
+    const path = toInternalPath(localizedPath, locale);
 
     const bypass = ['/api', '/_next', '/favicon.png'];
     if (bypass.some(p => path.startsWith(p))) {
@@ -79,7 +122,7 @@ export default async function middleware(request: NextRequest) {
         return response;
     }
 
-    const isSetupPath = (p: string) => ['/setup', '/instalacao'].some(s => p.startsWith(s));
+    const isSetupPath = path.startsWith('/setup');
 
     /** SETUP DO SISTEMA (PRIORIDADE) — cache via cookie */
     if (!setupStatus || setupStatus !== 'configured') {
@@ -88,15 +131,16 @@ export default async function middleware(request: NextRequest) {
             setupStatus = setup ? 'configured' : 'not-configured';
             shouldRefreshSetupCookie = true;
         } catch (error) {
-            return NextResponse.redirect(localizedUrl('/setup', locale, request));
+            // Banco ainda não pronto: trata como não configurado, sem gravar cookie.
+            // (Redirecionar aqui, mesmo já estando em /setup, causava loop de redirects.)
+            setupStatus = 'not-configured';
         }
     }
 
-    if (setupStatus !== 'configured' && !isSetupPath(path)) {
-        console.log(localizedUrl('/setup', locale, request)) // URL {  }
+    if (setupStatus !== 'configured' && !isSetupPath) {
         return attachCookies(NextResponse.redirect(localizedUrl('/setup', locale, request)));
     }
-    if (setupStatus === 'configured' && isSetupPath(path)) {
+    if (setupStatus === 'configured' && isSetupPath) {
         return attachCookies(NextResponse.redirect(localizedUrl('/login', locale, request)));
     }
 
@@ -120,8 +164,8 @@ export default async function middleware(request: NextRequest) {
 
 
     /** MANUTENÇÃO — roda sempre (menos admin), inclusive na própria /maintenance */
-    const onMaintenancePath = path.startsWith('/maintenance') || path.startsWith('/manutencao');
-    const onLoginPath = path.startsWith('/login') || path.startsWith('/entrar');
+    const onMaintenancePath = path.startsWith('/maintenance');
+    const onLoginPath = path.startsWith('/login');
 
     if (!isAdmin && maintStatus === undefined) {
         try {
@@ -144,12 +188,7 @@ export default async function middleware(request: NextRequest) {
     }
 
     /** PÁGINAS PÚBLICAS */
-    const publicRoutes = [
-        '/unauthorized', '/nao-autorizado',
-        '/maintenance', '/manutencao',
-        '/setup', '/instalacao',
-        '/login', '/entrar'
-    ];
+    const publicRoutes = ['/unauthorized', '/maintenance', '/setup', '/login'];
 
     if (publicRoutes.some(p => path.startsWith(p))) {
         return attachCookies(handleI18nRouting(request));
@@ -161,7 +200,7 @@ export default async function middleware(request: NextRequest) {
             return attachCookies(handleI18nRouting(request));
         }
 
-        const res = NextResponse.redirect(localizedUrl(`/login?callback=${encodedCallback}`, locale, request));
+        const res = loginRedirect(request, locale, path);
         if (token) res.cookies.delete('token');
         return attachCookies(res);
     }
@@ -169,7 +208,7 @@ export default async function middleware(request: NextRequest) {
     /** ROTAS ADMIN */
     if (path.startsWith('/admin')) {
         if (!hasValidToken) {
-            const res = NextResponse.redirect(localizedUrl(`/login?callback=${encodedCallback}`, locale, request))
+            const res = loginRedirect(request, locale, path);
             if (token) res.cookies.delete('token')
             return attachCookies(res);
         }
