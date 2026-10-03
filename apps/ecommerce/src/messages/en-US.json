@@ -22,7 +22,8 @@
         "mustHavePrimary": "Cannot unset the only primary address. Set another address as primary first.",
         "invalidTransition": "Cannot change order status to this state",
         "orderStatusConflict": "Order status changed concurrently, retry.",
-        "entityHasDependent": "It is not possible to delete an item with dependents. Remove its dependents first."
+        "entityHasDependent": "It is not possible to delete an item with dependents. Remove its dependents first.",
+        "invalidContryForCarrier": "The carriers do not recognize your country code."
     },
     "------------------  PAGE_NOT_FOUND  ------------------": "NotFound",
     "NotFound": {
@@ -158,10 +159,7 @@
     "-------------------  USER_ACCOUNT  --------------------": "User Account",
     "AccountHome": {
         "metaTitle": "My Account",
-        "metaDescription": "Manage your personal data, addresses and orders.",
-        "greeting": "Hello, {name}",
-        "title": "Account Overview",
-        "description": "Select one of the options above to manage your account, or view the information below."
+        "metaDescription": "Manage your personal data, addresses and orders."
     },
     "AccountNavCards": {
         "personalData": {
@@ -296,7 +294,7 @@
             "installmentsValue": "{count}x of {value}",
             "notes": "Notes",
             "close": "Close",
-            "discount":"Discount"
+            "discount": "Discount"
         },
         "alerts": {
             "fetchError": "Error fetching orders.",
@@ -460,8 +458,7 @@
             "mercadoPagoGenericDecline": "Payment declined by the card issuer.",
             "boletoGenerated": "Boleto Generated",
             "orderProcessing": "Order Processing",
-            "errorLoadingData": "Error preparing data for the purchase. Please try again later.",
-            "invalidContryForCarrier": "The carriers do not recognize your country code."
+            "errorLoadingData": "Error preparing data for the purchase. Please try again later."
         },
         "stripeCardErrors": {
             "incomplete_number": "Card number is incomplete.",
@@ -620,7 +617,7 @@
         "metaDescription": "Setup page",
         "title": "Initial Setup",
         "subtitle": "Let's set up your store in just a few minutes",
-        "defaultLanguageInfo": "Store name and description will be saved in English (default language). You can add translations for other languages later in the admin panel.",
+        "defaultLanguageInfo": "Store name and description will be saved in ({defaultLang} default language). You can add translations for other languages later in the admin panel.",
         "fields": {
             "siteName": "Site Name",
             "siteDescription": "Site Description",
@@ -629,9 +626,11 @@
             "adminEmail": "Administrator Email",
             "adminPassword": "Administrator Password",
             "domainHint": "Domain automatically detected for this installation — that's why the field is locked.",
-            "defaultLanguageHint": "This will be the default name in English",
+            "defaultTitleHint": "This will be the default name in {defaultLang}",
             "currency": "Currency",
-            "currencyHint": "The store's standard currency"
+            "currencyHint": "The store's standard currency",
+            "defaultLanguage": "Default Language",
+            "defaultLanguageHint": "This will be the default language for the store and can be changed later."
         },
         "buttons": {
             "save": "Save Configuration",
@@ -1078,7 +1077,9 @@
             "in_store_pickup": "Allow in-store pickup?",
             "maintenance": "Maintenance Mode",
             "theme": "Theme",
-            "currency": "Currency"
+            "currency": "Currency",
+            "enabled_languages": "Enabled Languages",
+            "default_language": "Default Language"
         },
         "metadataFieldLabels": {
             "title": "Meta Title",

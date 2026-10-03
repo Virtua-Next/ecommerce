@@ -700,7 +700,7 @@ const PaymentComponent = React.memo(function PaymentComponent() {
                     <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
                         <h2 className="text-xl font-bold mb-4">{editApiMode ? tCommon('edit') : tCommon('add')}</h2>
 
-                        <LanguageTabs active={activeApiLanguage} onChange={setActiveApiLanguage} incomplete={apiMissingLanguages} />
+                        <LanguageTabs active={activeApiLanguage} onChange={setActiveApiLanguage} incomplete={apiMissingLanguages} config={config} />
 
                         <div className="space-y-4 mt-4">
                             <div>
@@ -854,7 +854,7 @@ const PaymentComponent = React.memo(function PaymentComponent() {
                     <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
                         <h2 className="text-xl font-bold mb-4">{editMethodMode ? tCommon('edit') : tCommon('add')}</h2>
 
-                        <LanguageTabs active={activeMethodLanguage} onChange={setActiveMethodLanguage} incomplete={methodMissingLanguages} />
+                        <LanguageTabs active={activeMethodLanguage} onChange={setActiveMethodLanguage} incomplete={methodMissingLanguages} config={config} />
 
                         <div className="space-y-4 mt-4">
                             <div>

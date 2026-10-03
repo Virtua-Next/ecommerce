@@ -1,8 +1,8 @@
 import { z } from 'zod';
-import { SUPPORTED_LANGUAGES, SUPPORTED_CURRENCIES } from '@/lib/constants';
+import { SUPPORTED_LANGUAGES, SUPPORTED_CURRENCIES, DEFAULT_LANGUAGE } from '@/lib/constants';
 
 export const ConfigTranslationSchema = z.object({
-    site_name: z.string().min(1),
+    site_name: z.string().default(''),
     site_description: z.string().nullable().optional(),
 });
 
@@ -23,6 +23,8 @@ export const ConfigSchema = z.object({
     id: z.number().int().positive(),
     domain: z.string().min(1),
     currency: z.enum(SUPPORTED_CURRENCIES),
+    enabled_languages: z.array(z.enum(SUPPORTED_LANGUAGES)).min(1).default([DEFAULT_LANGUAGE]),
+    default_language: z.enum(SUPPORTED_LANGUAGES).default(DEFAULT_LANGUAGE),
     site_name: z.string().min(1),
     site_description: z.string().nullable().optional(),
     light_logo: z.string().nullable().optional(),

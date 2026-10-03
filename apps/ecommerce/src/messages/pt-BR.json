@@ -294,7 +294,7 @@
             "installmentsValue": "{count}x de {value}",
             "notes": "Observações",
             "close": "Fechar",
-            "discount":"Desconto"
+            "discount": "Desconto"
         },
         "alerts": {
             "fetchError": "Erro ao buscar pedidos.",
@@ -617,7 +617,7 @@
         "metaDescription": "Página de instalação",
         "title": "Configuração Inicial",
         "subtitle": "Vamos configurar sua loja em poucos minutos",
-        "defaultLanguageInfo": "O nome e a descrição da loja serão salvos em inglês (idioma padrão). Você poderá adicionar traduções para outros idiomas posteriormente no painel administrativo.",
+        "defaultLanguageInfo": "O nome e a descrição da loja serão salvos em ({defaultLang} idioma padrão). Você poderá adicionar traduções para outros idiomas posteriormente no painel administrativo.",
         "fields": {
             "siteName": "Nome do Site",
             "siteDescription": "Descrição do Site",
@@ -625,10 +625,12 @@
             "adminName": "Nome Administrador",
             "adminEmail": "Email Administrador",
             "adminPassword": "Senha Administrador",
+            "defaultTitleHint": "Este será o nome padrão em {defaultLang}.",
             "domainHint": "Domínio detectado automaticamente onde a loja está sendo instalada — por isso o campo vem bloqueado.",
-            "defaultLanguageHint": "Este será o nome padrão em inglês.",
             "currency": "Moeda",
-            "currencyHint": "A moeda padrão da loja"
+            "currencyHint": "A moeda padrão da loja",
+            "defaultLanguage": "Idioma Padrão",
+            "defaultLanguageHint": "Este será o idioma padrão da loja e poderá ser alterado posteriormente."
         },
         "buttons": {
             "save": "Salvar Configuração",
@@ -1075,7 +1077,9 @@
             "in_store_pickup": "Permitir retirada na loja?",
             "maintenance": "Modo Manutenção",
             "theme": "Tema",
-            "currency": "Moeda"
+            "currency": "Moeda",
+            "enabled_languages": "Idiomas Ativados",
+            "default_language": "Idioma Padrão"
         },
         "metadataFieldLabels": {
             "title": "Título Meta",

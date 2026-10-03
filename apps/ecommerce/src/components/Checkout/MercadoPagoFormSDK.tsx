@@ -74,7 +74,7 @@ export const MercadoPagoFormSDK = forwardRef(function MercadoPagoFormSDK({
         resolvedTheme === 'dark' ? 'dark' : 'default';
 
     useEffect(() => {
-        initMercadoPago(publicKey, { locale });
+        initMercadoPago(publicKey, { locale: locale === 'ja-JP' ? 'en-US' : locale });
     }, [publicKey, locale]);
 
 

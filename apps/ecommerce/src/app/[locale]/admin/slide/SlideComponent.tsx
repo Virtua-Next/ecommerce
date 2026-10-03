@@ -400,7 +400,7 @@ const SlideComponent = React.memo(function SlideComponent() {
                     <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-6xl max-h-[calc(100vh-4rem)] overflow-y-auto">
                         <h2 className="text-xl font-bold mb-4">{editMode ? tCommon('edit') : tCommon('add')}</h2>
 
-                        <LanguageTabs active={activeLanguage} onChange={setActiveLanguage} incomplete={missingLanguages} />
+                        <LanguageTabs active={activeLanguage} onChange={setActiveLanguage} incomplete={missingLanguages} config={config} />
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                             {/* Left column */}

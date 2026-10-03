@@ -2,19 +2,21 @@
 import { useLocale, useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { useRouter, usePathname } from '@/i18n/navigation';
-import { routing } from '@/i18n/routing';
 import { Button } from './ui/button';
 import { useRef } from 'react';
-import { LANGUAGE_LABELS, LANGUAGE_FLAGS, ENTITY_TYPE_BY_PATH } from "@/lib/constants";
+import { LANGUAGE_LABELS, LANGUAGE_FLAGS, ENTITY_TYPE_BY_PATH, SUPPORTED_LANGUAGES } from "@/lib/constants";
 import { apiFetch, extractData } from '@/lib/utils';
+import { useConfig } from '@/context/ConfigContext';
 
 
 export function LanguageSwitcher() {
     const t = useTranslations('LanguageSwitcher');
+    const { config } = useConfig();
     const locale = useLocale();
     const router = useRouter();
     const pathname = usePathname();
     const params = useParams<{ slug?: string }>();
+    const isSetupPage = pathname.startsWith('/setup');
 
     const translationAbortControllerRef = useRef<AbortController | null>(null);
 
@@ -59,7 +61,7 @@ export function LanguageSwitcher() {
         <Button variant={'theme'} size={'sm'} className="rounded-full">
             <span className="sr-only">{t('label')}</span>
             <select value={locale} onChange={(e) => handleChange(e.target.value)} className="bg-transparent text-base">
-                {routing.locales.map((l) => (
+                {(isSetupPage ? SUPPORTED_LANGUAGES : config?.enabled_languages ?? []).map((l) => (
                     <option key={l} value={l} title={LANGUAGE_LABELS[l] ?? l}>
                         {LANGUAGE_FLAGS[l] ?? l}
                     </option>

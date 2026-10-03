@@ -104,6 +104,7 @@ export function buildEntityMetadata<T extends EntityWithMetadata>({ targetType, 
     const entityImage = resolveEntityImage(entity, image);
 
     let ogImageUrl = buildImageUrl(config?.cdn, config?.light_logo || config?.dark_logo, imageFallback);
+
     ogImageUrl = buildImageUrl(config?.cdn, entityImage, ogImageUrl);
     ogImageUrl = buildImageUrl(config?.cdn, meta?.og_image, ogImageUrl);
 

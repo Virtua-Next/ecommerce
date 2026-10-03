@@ -500,7 +500,7 @@ const CarrierComponent = React.memo(function CarrierComponent() {
                         <h2 className="text-xl font-bold mb-4">{editMode ? tCommon('edit') : tCommon('add')}</h2>
 
                         {form.carrier_type !== 'melhor_envio' && (
-                            <LanguageTabs active={activeLanguage} onChange={setActiveLanguage} incomplete={missingLanguages} />
+                            <LanguageTabs active={activeLanguage} onChange={setActiveLanguage} incomplete={missingLanguages} config={config} />
                         )}
 
                         <div className="grid grid-cols-1 gap-4 mt-4">

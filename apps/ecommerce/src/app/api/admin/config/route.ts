@@ -25,6 +25,7 @@ export async function PATCH(req: NextRequest) {
         }
 
         const body = await req.json();
+
         const parsed = UpdateConfigSchema.safeParse(body);
 
         if (!parsed.success) return jsonNoStore({ success: false, error: 'Invalid payload', code: 'VALIDATION_ERROR' }, 400);

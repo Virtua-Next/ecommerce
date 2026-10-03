@@ -106,16 +106,11 @@ export async function createCategory(data: ICreateCategoryPayload): Promise<IRes
         for (const lang of availableLanguages) {
             const fields = { ...data.translations[lang] };
 
-            let finalSlug = fields.slug;
+            const root = fields.slug || `item-${Math.random().toString(36).slice(2, 8)}`;
+            let finalSlug = root;
             let counter = 1;
-            while (true) {
-                const slugExists = await db
-                    .prepare(`SELECT 1 FROM category_translation WHERE slug = ? AND translation_language = ?`)
-                    .bind(finalSlug, lang)
-                    .first();
-                if (!slugExists) break;
-                finalSlug = `${fields.slug}-${counter}`;
-                counter++;
+            while (await db.prepare(`SELECT 1 FROM category_translation WHERE slug = ? AND translation_language = ?`).bind(finalSlug, lang).first()) {
+                finalSlug = `${root}-${counter++}`;
             }
 
             try {
@@ -245,17 +240,11 @@ export async function updateCategory(id: number, data: IUpdateCategoryPayload): 
                 if (!fields) continue;
 
                 if (fields.slug !== undefined) {
-                    let finalSlug = fields.slug;
+                    const root = fields.slug || `item-${Math.random().toString(36).slice(2, 8)}`;
+                    let finalSlug = root;
                     let counter = 1;
-                    while (true) {
-                        const slugExists = await db
-                            .prepare(` SELECT 1 FROM category_translation WHERE slug = ? AND translation_language = ? AND category_id != ?`)
-                            .bind(finalSlug, lang, id)
-                            .first();
-
-                        if (!slugExists) break;
-                        finalSlug = `${fields.slug}-${counter}`;
-                        counter++;
+                    while (await db.prepare(`SELECT 1 FROM category_translation WHERE slug = ? AND translation_language = ?`).bind(finalSlug, lang).first()) {
+                        finalSlug = `${root}-${counter++}`;
                     }
                     fields.slug = finalSlug;
                 }

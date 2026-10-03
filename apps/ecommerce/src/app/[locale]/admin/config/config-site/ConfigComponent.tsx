@@ -9,7 +9,7 @@ import { MetadataManager } from '@/components/MetadataManager/MetadataManager';
 import { LanguageTabs } from '@/components/LanguageTabs/LanguageTabs';
 import ImageWithFallback from '@/components/ImageWithFallback/imageWithFallback';
 import { PlaceholderImage } from '@/components/PlaceholderImage/PlaceholderImage';
-import { SUPPORTED_LANGUAGES } from '@/lib/constants';
+import { LANGUAGE_FLAGS, LANGUAGE_LABELS, SUPPORTED_LANGUAGES } from '@/lib/constants';
 import { SupportedLanguage } from '@/lib/types/generic';
 import { useRouter } from '@/i18n/navigation';
 import { useToast } from '@/components/ToastSystem';
@@ -237,10 +237,43 @@ const ConfigComponent = React.memo(function ConfigComponent() {
         if (['maintenance', 'show_price', 'new_address_checkout', 'in_store_pickup'].includes(key)) {
             return value ? t('yes') : t('no');
         }
+        if (key === 'enabled_languages') {
+            if (Array.isArray(value)) {
+                return value.map((lang: string) => lang).join(', ');
+            }
+            return value;
+        }
         return value;
     };
 
     const isTranslatedField = (key: string) => key === 'site_name' || key === 'site_description';
+
+    const enabledLanguages: string[] = (() => {
+        try {
+            const raw = novoConfig?.enabled_languages;
+            if (!raw) return [];
+            return typeof raw === 'string' ? JSON.parse(raw) : raw;
+        } catch {
+            return [];
+        }
+    })();
+
+    const toggleLanguage = (langCode: SupportedLanguage) => {
+        const isRemoving = enabledLanguages.includes(langCode);
+        const updated = isRemoving
+            ? enabledLanguages.filter((l) => l !== langCode)
+            : [...enabledLanguages, langCode];
+
+        // Não deixa remover o último idioma
+        if (updated.length === 0) return;
+
+        handleInputChange('enabled_languages' as keyof IConfig, updated as any);
+
+        // Se o default caiu fora, joga pro primeiro habilitado
+        if (!updated.includes(novoConfig?.default_language as SupportedLanguage)) {
+            handleInputChange('default_language' as keyof IConfig, updated[0] as any);
+        }
+    };
 
     if (loading || metadataLoading || !novoConfig) return <div className="p-6">{tCommon('loading')}</div>;
 
@@ -277,7 +310,7 @@ const ConfigComponent = React.memo(function ConfigComponent() {
 
             {isEditing && (
                 <div className="mb-4">
-                    <LanguageTabs active={activeLanguage} onChange={setActiveLanguage} incomplete={missingLanguages} />
+                    <LanguageTabs active={activeLanguage} onChange={setActiveLanguage} incomplete={missingLanguages} config={config} />
                 </div>
             )}
 
@@ -318,6 +351,36 @@ const ConfigComponent = React.memo(function ConfigComponent() {
                                             </select>
                                         ) : key === 'theme' || key === 'domain' ? (
                                             <span>{String(value) || t('none')}</span>
+                                        ) : key === 'default_language' ? (
+                                            <select
+                                                className="w-full p-2 border dark:border-gray-700 rounded"
+                                                value={novoConfig.default_language ?? ''}
+                                                onChange={(e) => handleInputChange('default_language' as keyof IConfig, e.target.value)}
+                                            >
+                                                {enabledLanguages.map((code) => (
+                                                    <option key={code} value={code}>
+                                                        {LANGUAGE_FLAGS[code as SupportedLanguage]} {LANGUAGE_LABELS[code as SupportedLanguage]}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        ) : key === 'enabled_languages' ? (
+                                            <div className="flex flex-wrap gap-4 p-3 border dark:border-gray-700 rounded">
+                                                {SUPPORTED_LANGUAGES.map((code) => (
+                                                    <label
+                                                        key={code}
+                                                        className="flex items-center gap-2 cursor-pointer select-none"
+                                                    >
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={enabledLanguages.includes(code)}
+                                                            onChange={() => toggleLanguage(code)}
+                                                            className="w-4 h-4 cursor-pointer"
+                                                        />
+                                                        <span className="text-lg">{LANGUAGE_FLAGS[code]}</span>
+                                                        <span>{LANGUAGE_LABELS[code]}</span>
+                                                    </label>
+                                                ))}
+                                            </div>
                                         ) : (
                                             <input type="text" className="w-full p-2 border dark:border-gray-700 rounded" value={String(novoConfig[key as keyof IConfig] ?? '')} onChange={(e) => handleInputChange(key as keyof IConfig, e.target.value)} />
                                         )

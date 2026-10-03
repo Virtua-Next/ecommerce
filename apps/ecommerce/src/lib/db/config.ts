@@ -1,6 +1,7 @@
 import type { IConfig } from '@/lib/schemas/config';
 import { getDb } from '@/lib/cloudflare/context';
 import { DEFAULT_LANGUAGE } from '@/lib/constants'
+import { isSupported, normalizeLanguages, parseLanguages } from '@/i18n/languages';
 
 
 export async function getConfig(locale?: string): Promise<IConfig | null> {
@@ -14,6 +15,8 @@ export async function getConfig(locale?: string): Promise<IConfig | null> {
                     c.id,
                     c.domain,
                     c.currency,
+                    c.enabled_languages,
+                    c.default_language,
                     c.theme,
                     c.light_logo,
                     c.dark_logo,
@@ -74,6 +77,14 @@ export async function getConfig(locale?: string): Promise<IConfig | null> {
             try { config.metadata = JSON.parse(config.metadata as string); }
             catch (e) { config.metadata = undefined; }
         }
+
+        const supported = parseLanguages(config.enabled_languages);
+        const def = isSupported(config.default_language) ? config.default_language : DEFAULT_LANGUAGE;
+
+        config.enabled_languages = supported.includes(def) ? supported : [...supported, def];
+        config.default_language = def;
+
+        if (config) normalizeLanguages(config);
 
         return config as IConfig;
 

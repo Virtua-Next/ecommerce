@@ -1,16 +1,15 @@
 'use client';
 import { useAdminConfig } from '@/context/AdminConfigContext';
-import slugify from 'slugify';
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { FaPencilAlt, FaTrash, FaPlus, FaEyeSlash, FaEye, FaTags, FaEllipsisV, FaStar, FaSave } from 'react-icons/fa';
 import { CreateMetadataRequestInput, IMetadataOutput, UpdateMetadataRequestInput } from '@/lib/schemas/metadata';
-import { buildImageUrl, formatPrice, extractData, isValidImageUrl, apiFetch, stripHtmlToText } from '@/lib/utils';
+import { buildImageUrl, formatPrice, extractData, isValidImageUrl, apiFetch, stripHtmlToText, makeSlug } from '@/lib/utils';
 import { TiptapEditor } from '@/components/TiptapEditor/TiptapEditor';
 import TableBuilder from '@/components/TableBuilder/TableBuilder';
 import { MetadataManager } from '@/components/MetadataManager/MetadataManager';
 import { LanguageTabs } from '@/components/LanguageTabs/LanguageTabs';
-import { SUPPORTED_LANGUAGES, ADMIN_PAGINATION_DEFAULT } from '@/lib/constants'
+import { SUPPORTED_LANGUAGES, ADMIN_PAGINATION_DEFAULT, DEFAULT_LANGUAGE } from '@/lib/constants'
 import { SupportedLanguage } from '@/lib/types/generic'
 import { useGlobalSearch } from '@/hooks/useGlobalSearch';
 import AdminSearch from '@/components/Features/admin-search';
@@ -171,7 +170,7 @@ const ProductComponent = React.memo(function ProductComponent() {
         setTouchedLanguages((prev) => ({ ...prev, [lang]: true }));
         setForm((prev) => {
             const slugFor = (targetLang: SupportedLanguage) =>
-                editMode ? prev.translations[targetLang].slug : slugify(value, { lower: true, strict: true, locale: targetLang.split('-')[0] });
+                editMode ? prev.translations[targetLang].slug : makeSlug(value, targetLang, prev.translations[config?.default_language || DEFAULT_LANGUAGE]?.slug ?? '');
 
             const translations = { ...prev.translations };
             translations[lang] = { ...translations[lang], title: value, slug: slugFor(lang) };
@@ -665,7 +664,7 @@ const ProductComponent = React.memo(function ProductComponent() {
                     <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-6xl max-h-[calc(100vh-4rem)] overflow-y-auto">
                         <h2 className="text-xl font-bold mb-4">{editMode ? t('editEntity') : t('addEntity')}</h2>
 
-                        <LanguageTabs active={activeLanguage} onChange={setActiveLanguage} incomplete={missingLanguages} />
+                        <LanguageTabs active={activeLanguage} onChange={setActiveLanguage} incomplete={missingLanguages} config={config} />
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                             <div>

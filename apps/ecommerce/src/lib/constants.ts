@@ -108,18 +108,20 @@ export const MERCADOPAGO_IDENTIFICATION_TYPE: Partial<Record<CountryCode, string
 
 // --------- LANGUAGE -----------
 export const DEFAULT_LANGUAGE = 'pt-BR' as const;
-export const SUPPORTED_LANGUAGES = ['en-US', 'pt-BR'] as const;
+export const SUPPORTED_LANGUAGES = ['pt-BR', 'en-US', 'ja-JP'] as const;
 export const LANGUAGE_LABELS: Record<SupportedLanguage, string> = {
+    'pt-BR': 'Português',
     'en-US': 'English',
-    'pt-BR': 'Português'
+    'ja-JP': '日本語'
 };
 export const LANGUAGE_FLAGS: Record<SupportedLanguage, string> = {
-    'en-US': '🇺🇸',
     'pt-BR': '🇧🇷',
+    'en-US': '🇺🇸',
+    'ja-JP': '🇯🇵',
 };
 
 // ---------- CURRENCY ----------
-export const SUPPORTED_CURRENCIES = ['USD', 'BRL'] as const;
+export const SUPPORTED_CURRENCIES = ['BRL', 'USD', 'JPY'] as const;
 export const DEFAULT_CURRENCY = 'BRL' as const;
 
 
@@ -144,43 +146,53 @@ export const EMAIL_TRIGGER_TYPES = ['sales', 'account', 'support'] as const;
 export const EMAIL_SUBJECTS: Record<string, Record<SupportedLanguage, string>> = {
     account_register: {
         'pt-BR': 'Confirme seu cadastro',
-        'en-US': 'Confirm your registration'
+        'en-US': 'Confirm your registration',
+        'ja-JP': '登録を確認する'
     },
     password_reset: {
         'pt-BR': 'Recuperação de senha',
-        'en-US': 'Password reset'
+        'en-US': 'Password reset',
+        'ja-JP': 'パスワードをリセットする'
     },
     order_confirmation: {
         'pt-BR': 'Confirmação de Pedido #{orderId}',
-        'en-US': 'Order Confirmation #{orderId}'
+        'en-US': 'Order Confirmation #{orderId}',
+        'ja-JP': '注文確認 #{orderId}'
     },
     order_confirmation_transfer: {
         'pt-BR': 'Pedido #{orderId} recebido — Aguardando pagamento',
-        'en-US': 'Order #{orderId} received — Awaiting payment'
+        'en-US': 'Order #{orderId} received — Awaiting payment',
+        'ja-JP': '注文 #{orderId} 受信 — 支払いを待っています'
     },
     order_confirmation_pix_offline: {
         'pt-BR': 'Pedido #{orderId} recebido — Aguardando pagamento',
-        'en-US': 'Order #{orderId} received — Awaiting payment'
+        'en-US': 'Order #{orderId} received — Awaiting payment',
+        'ja-JP': '注文 #{orderId} 受信 — 支払いを待っています'
     },
     order_shipped: {
         'pt-BR': 'Pedido #{orderId} Enviado',
-        'en-US': 'Order #{orderId} Shipped'
+        'en-US': 'Order #{orderId} Shipped',
+        'ja-JP': '注文 #{orderId} 発送済み'
     },
     order_canceled: {
         'pt-BR': 'Pedido #{orderId} Cancelado',
-        'en-US': 'Order #{orderId} Canceled'
+        'en-US': 'Order #{orderId} Canceled',
+        'ja-JP': '注文 #{orderId} キャンセル済み'
     },
     payment_error: {
         'pt-BR': 'Pedido #{orderId}. Erro no pagamento',
-        'en-US': 'Order #{orderId}. Payment error'
+        'en-US': 'Order #{orderId}. Payment error',
+        'ja-JP': '注文 #{orderId}。 支払いエラー'
     },
     payment_instructions: {
         'pt-BR': 'Instruções para pagamento do Pedido #{orderId}.',
-        'en-US': 'Payment instructions for Order #{orderId}.'
+        'en-US': 'Payment instructions for Order #{orderId}.',
+        'ja-JP': '注文 #{orderId} の支払い手順。'
     },
     support: {
         'pt-BR': 'Suporte ao cliente',
-        'en-US': 'Customer support'
+        'en-US': 'Customer support',
+        'ja-JP': 'カスタマーサポート'
     }
 };
 

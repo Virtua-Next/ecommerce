@@ -252,10 +252,17 @@ export async function createProduct(data: ICreateProductPayload): Promise<IResul
             const fields = data.translations[lang];
             if (!fields) continue;
 
+            const root = fields.slug || `item-${Math.random().toString(36).slice(2, 8)}`;
+            let finalSlug = root;
+            let counter = 1;
+            while (await db.prepare(`SELECT 1 FROM product_translation WHERE slug = ? AND translation_language = ?`).bind(finalSlug, lang).first()) {
+                finalSlug = `${root}-${counter++}`;
+            }
+
             try {
                 await upsertTranslation('product_translation', 'product_id', newId, lang, {
                     title: fields.title,
-                    slug: fields.slug,
+                    slug: finalSlug,
                     product_description: fields.product_description ?? undefined,
                     specification: fields.specification ?? undefined,
                 });
@@ -277,11 +284,6 @@ export async function createProduct(data: ICreateProductPayload): Promise<IResul
                     .run();
             }
         }
-
-        await db
-            .prepare(`INSERT INTO price (product_id, previous_price, new_price, reason) VALUES (?, ?, ?, ?)`)
-            .bind(newId, data.price, data.price, 'Initial price')
-            .run();
 
         const availableLangs = Object.keys(data.translations) as Array<SupportedLanguage>;
         let defaultLang = availableLangs[0] || DEFAULT_LANGUAGE;
@@ -401,10 +403,17 @@ export async function updateProduct(id: number, data: IUpdateProductPayload): Pr
                 const fields = data.translations[lang];
                 if (!fields) continue;
 
+                const root = fields.slug || `item-${Math.random().toString(36).slice(2, 8)}`;
+                let finalSlug = root;
+                let counter = 1;
+                while (await db.prepare(`SELECT 1 FROM product_translation WHERE slug = ? AND translation_language = ?`).bind(finalSlug, lang).first()) {
+                    finalSlug = `${root}-${counter++}`;
+                }
+
                 try {
                     await upsertTranslation('product_translation', 'product_id', id, lang, {
                         title: fields.title,
-                        slug: fields.slug,
+                        slug: finalSlug,
                         product_description: fields.product_description ?? undefined,
                         specification: fields.specification ?? undefined,
                     });
@@ -426,13 +435,6 @@ export async function updateProduct(id: number, data: IUpdateProductPayload): Pr
                     .bind(id, img.image_path, img.image_order ?? 0, img.image_primary ?? false)
                     .run();
             }
-        }
-
-        if (data.price !== undefined && data.price !== existingProduct.price) {
-            await db
-                .prepare(`INSERT INTO price (product_id, previous_price, new_price, reason) VALUES (?, ?, ?, ?)`)
-                .bind(id, existingProduct.price, data.price, data.price_change_reason ?? null)
-                .run();
         }
 
         if (fieldsToUpdate.length === 0 && !data.translations && data.images === undefined) return { success: false, error: 'No data was changed', code: 'NO_CHANGES' };

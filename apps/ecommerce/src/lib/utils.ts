@@ -11,7 +11,21 @@ import { ApiErrorCode, CountryCode, SupportedCurrency, SupportedLanguage } from 
 import { DEFAULT_LANGUAGE, ERROR_CODE_KEYS, SUPPORTED_LANGUAGES } from "@/lib/constants";
 import { AddressFormState } from "./schemas/user";
 import { AddressFieldKey, AddressValidationResult, CONDITIONALLY_REQUIRED, COUNTRY_CONFIGS, REQUIRED_FIELDS } from "./schemas/country-configs";
+import slugify from 'slugify';
 
+
+// Scripts slugify can't transliterate: the slug would be empty or a stray fragment.
+// (new RegExp avoids TS complaining about \p{...} when the target is below ES2018)
+const UNTRANSLITERABLE = new RegExp(
+    '[\\p{Script=Han}\\p{Script=Hiragana}\\p{Script=Katakana}\\p{Script=Hangul}' +
+    '\\p{Script=Thai}\\p{Script=Devanagari}\\p{Script=Hebrew}\\p{Script=Arabic}]',
+    'u'
+);
+
+export function makeSlug(title: string, lang: SupportedLanguage, fallback = ''): string {
+    if (UNTRANSLITERABLE.test(title)) return fallback;
+    return slugify(title, { lower: true, strict: true, locale: lang.split('-')[0] }) || fallback;
+}
 
 export function capitalizeWords(str: string): string {
     if (!str) return '';

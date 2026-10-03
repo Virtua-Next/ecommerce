@@ -1,11 +1,10 @@
 'use client';
 import { useAdminConfig } from '@/context/AdminConfigContext';
-import slugify from 'slugify';
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { FaPencilAlt, FaTrash, FaPlus, FaEyeSlash, FaEye, FaTags, FaEllipsisV, FaSave } from 'react-icons/fa';
 import { CreateMetadataRequestInput, IMetadataOutput, UpdateMetadataRequestInput } from '@/lib/schemas/metadata';
-import { buildImageUrl, extractData, apiFetch, stripHtmlToText } from '@/lib/utils';
+import { buildImageUrl, extractData, apiFetch, stripHtmlToText, makeSlug } from '@/lib/utils';
 import TableBuilder from '@/components/TableBuilder/TableBuilder';
 import { MetadataManager } from '@/components/MetadataManager/MetadataManager';
 import { LanguageTabs } from '@/components/LanguageTabs/LanguageTabs';
@@ -15,7 +14,7 @@ import ImageWithFallback from '@/components/ImageWithFallback/imageWithFallback'
 import { ICategoryTranslated, CategoryFormState, EMPTY_FORM, ILocalizedCategoryFields } from '@/lib/schemas/category';
 import React from 'react';
 import { PlaceholderImage } from '@/components/PlaceholderImage/PlaceholderImage';
-import { ADMIN_PAGINATION_DEFAULT, SUPPORTED_LANGUAGES } from '@/lib/constants'
+import { ADMIN_PAGINATION_DEFAULT, DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@/lib/constants'
 import { SupportedLanguage } from '@/lib/types/generic'
 import { useRouter, Link } from '@/i18n/navigation'
 import { useToast } from '@/components/ToastSystem';
@@ -111,7 +110,7 @@ const CategoryComponent = React.memo(function CategoryComponent() {
         setTouchedLanguages(prev => ({ ...prev, [lang]: true }));
         setForm(prev => {
             const slugFor = (targetLang: SupportedLanguage) =>
-                editMode ? prev.translations[targetLang].slug : slugify(value, { lower: true, strict: true, locale: targetLang.split('-')[0] });
+                editMode ? prev.translations[targetLang].slug : makeSlug(value, targetLang, prev.translations[config?.default_language || DEFAULT_LANGUAGE]?.slug ?? '');
 
             const translations = {
                 ...prev.translations,
@@ -547,7 +546,7 @@ const CategoryComponent = React.memo(function CategoryComponent() {
                     <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md">
                         <h2 className="text-xl font-bold mb-2">{editMode ? t('editEntity') : t('addEntity')}</h2>
 
-                        <LanguageTabs active={activeLanguage} onChange={setActiveLanguage} incomplete={missingLanguages} />
+                        <LanguageTabs active={activeLanguage} onChange={setActiveLanguage} incomplete={missingLanguages} config={config} />
 
                         <div className="space-y-4">
                             <div>

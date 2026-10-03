@@ -7,13 +7,14 @@ import { useRouter } from '@/i18n/navigation';
 import "../../../styles/globals.css";
 import { useToast } from '@/components/ToastSystem';
 import { apiFetch, resolveApiErrorKey } from '@/lib/utils';
-import { SUPPORTED_CURRENCIES } from '@/lib/constants';
+import { DEFAULT_CURRENCY, DEFAULT_LANGUAGE, LANGUAGE_LABELS, SUPPORTED_CURRENCIES, SUPPORTED_LANGUAGES } from '@/lib/constants';
 import { Button } from '@/components/ui/button';
 
 
 interface FormData {
     site_name: string;
     site_description: string;
+    default_language: string;
     domain: string;
     currency: string;
     user_name: string;
@@ -24,8 +25,9 @@ interface FormData {
 const EMPTY_FORM: FormData = {
     site_name: '',
     site_description: '',
+    default_language: DEFAULT_LANGUAGE,
     domain: '',
-    currency: SUPPORTED_CURRENCIES[0],
+    currency: DEFAULT_CURRENCY,
     user_name: '',
     email: '',
     user_password: '',
@@ -97,6 +99,20 @@ const CurrencySelect = memo(function CurrencySelect({ value, onChange, label, hi
             <select name="currency" value={value} onChange={onChange} required className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500">
                 {SUPPORTED_CURRENCIES.map((currency) => (
                     <option key={currency} value={currency}>{currency}</option>
+                ))}
+            </select>
+            {hint && <p className="text-xs text-gray-400 mt-1">{hint}</p>}
+        </div>
+    );
+});
+
+const LanguageSelect = memo(function LanguageSelect({ value, onChange, label, hint }: { value: string; onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void; label: string; hint?: string; }) {
+    return (
+        <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{label}<span className="text-red-500">*</span></label>
+            <select name="default_language" value={value} onChange={onChange} required className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500">
+                {SUPPORTED_LANGUAGES.map((language) => (
+                    <option key={language} value={language}>{LANGUAGE_LABELS[language]}</option>
                 ))}
             </select>
             {hint && <p className="text-xs text-gray-400 mt-1">{hint}</p>}
@@ -209,7 +225,7 @@ function Setup() {
                         <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-sm text-blue-700">
                             <p>
                                 <span className="font-medium">ℹ️</span>{' '}
-                                {t('defaultLanguageInfo') ?? 'Store name and description will be saved in English (default language). You can add translations for other languages later in the admin panel.'}
+                                {t('defaultLanguageInfo', { defaultLang: formData.default_language }) ?? 'Store name and description will be saved in English (default language). You can add translations for other languages later in the admin panel.'}
                             </p>
                         </div>
 
@@ -230,7 +246,7 @@ function Setup() {
                                             className="text-gray-700 block w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500"
                                         />
                                         <p className="text-xs text-gray-400 mt-1">
-                                            {t('fields.defaultLanguageHint') ?? 'This will be the default name in English'}
+                                            {t('fields.defaultTitleHint', {defaultLang: formData.default_language}) ?? 'This will be the default name in English'}
                                         </p>
                                     </div>
 
@@ -260,11 +276,20 @@ function Setup() {
                                     onChange={handleFieldChange}
                                     hint={t('fields.domainHint')}
                                 />
+                            </div>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <CurrencySelect
                                     value={formData.currency}
                                     onChange={handleFieldChange}
                                     label={t('fields.currency')}
                                     hint={t('fields.currencyHint') ?? 'This can be changed later'}
+                                />
+
+                                <LanguageSelect
+                                    value={formData.default_language}
+                                    onChange={handleFieldChange}
+                                    label={t('fields.defaultLanguage')}
+                                    hint={t('fields.defaultLanguageHint') ?? 'This can be changed later'}
                                 />
                             </div>
                         </Section>

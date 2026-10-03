@@ -30,7 +30,7 @@ const NOTHING_TOUCHED: Record<SupportedLanguage, boolean> = SUPPORTED_LANGUAGES.
 
 export const MetadataManager = ({ targetType, targetId, initialMetadata, onSave, onDelete, setShowMetadataModal }: MetadataManagerProps) => {
     const t = useTranslations('MetadataManager');
-    const config = useConfig();
+    const { config } = useConfig();
     const locale = useLocale() as SupportedLanguage;
     const [loading, setLoading] = useState(false);
     const [form, setForm] = useState<MetadataFormState>(EMPTY_FORM);
@@ -155,7 +155,7 @@ export const MetadataManager = ({ targetType, targetId, initialMetadata, onSave,
                 )}
             </div>
 
-            <LanguageTabs active={activeLanguage} onChange={setActiveLanguage} incomplete={SUPPORTED_LANGUAGES.filter(l => !form.translations[l].title)} />
+            <LanguageTabs active={activeLanguage} onChange={setActiveLanguage} incomplete={SUPPORTED_LANGUAGES.filter(l => !form.translations[l].title)} config={config!} />
 
             <form onSubmit={handleSubmit} className="space-y-6 mt-4">
                 <div className="space-y-4">
@@ -209,7 +209,7 @@ export const MetadataManager = ({ targetType, targetId, initialMetadata, onSave,
                         <div className="mt-2">
                             <p className="text-xs font-medium mb-1 dark:font-extralight">{t('preview')}</p>
                             {form.og_image && (
-                                <ImageWithFallback src={buildImageUrl(config?.config?.cdn, form.og_image)} alt={t('imageNotAvailable')} fallbackComponent={<PlaceholderImage size="sm" className="w-12 h-12" />} width={50} height={50} />
+                                <ImageWithFallback src={buildImageUrl(config?.cdn, form.og_image)} alt={t('imageNotAvailable')} fallbackComponent={<PlaceholderImage size="sm" className="w-12 h-12" />} width={50} height={50} />
                             )}
                         </div>
                     </div>
@@ -234,7 +234,7 @@ export const MetadataManager = ({ targetType, targetId, initialMetadata, onSave,
                         <div className="mt-2">
                             <p className="text-xs font-medium mb-1 dark:font-extralight">{t('preview')}</p>
                             {form.x_image && (
-                                <ImageWithFallback src={buildImageUrl(config?.config?.cdn, form.x_image)} alt={t('imageNotAvailable')} fallbackComponent={<PlaceholderImage size="sm" className="w-12 h-12" />} width={50} height={50} />
+                                <ImageWithFallback src={buildImageUrl(config?.cdn, form.x_image)} alt={t('imageNotAvailable')} fallbackComponent={<PlaceholderImage size="sm" className="w-12 h-12" />} width={50} height={50} />
                             )}
                         </div>
                     </div>

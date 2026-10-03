@@ -21,9 +21,8 @@ const p = (
     ) as Record<SupportedLanguage, string>;
 
 export const routing = defineRouting({
-    locales: SUPPORTED_LANGUAGES,       // locales: ['en-US', 'pt-BR']
-    defaultLocale: DEFAULT_LANGUAGE,    // defaultLocale: 'en-US'
-
+    locales: SUPPORTED_LANGUAGES,       // locales: ['pt-BR', 'en-US', 'ja-JP']
+    defaultLocale: DEFAULT_LANGUAGE,    // defaultLocale: 'pt-BR'
     pathnames: {
         '/': '/',
         '/setup': p('/setup', { 'pt-BR': '/instalacao' }),

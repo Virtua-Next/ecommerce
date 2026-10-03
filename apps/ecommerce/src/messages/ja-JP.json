@@ -22,7 +22,8 @@
         "mustHavePrimary": "唯一の主要住所を解除することはできません。先に別の住所を主要住所に設定してください。",
         "invalidTransition": "注文ステータスをこの状態に変更することはできません。",
         "orderStatusConflict": "注文ステータスが同時に変更されました。もう一度お試しください。",
-        "entityHasDependent": "関連項目がある項目は削除できません。先に関連項目を削除してください。"
+        "entityHasDependent": "関連項目がある項目は削除できません。先に関連項目を削除してください。",
+        "invalidContryForCarrier": "配送業者がお客様の国コードを認識できません。"
     },
     "------------------ PAGE_NOT_FOUND ------------------": "NotFound",
     "NotFound": {
@@ -158,10 +159,7 @@
     "------------------- USER_ACCOUNT --------------------": "ユーザーアカウント",
     "AccountHome": {
         "metaTitle": "マイアカウント",
-        "metaDescription": "個人情報、住所、注文を管理します。",
-        "greeting": "こんにちは、{name}さん",
-        "title": "アカウント概要",
-        "description": "上記のオプションからアカウントを管理する項目を選択するか、以下の情報をご確認ください。"
+        "metaDescription": "個人情報、住所、注文を管理します。"
     },
     "AccountNavCards": {
         "personalData": {
@@ -460,8 +458,7 @@
             "mercadoPagoGenericDecline": "カード発行会社によって支払いが拒否されました。",
             "boletoGenerated": "Boletoが発行されました",
             "orderProcessing": "注文を処理しています",
-            "errorLoadingData": "購入に必要なデータの準備中にエラーが発生しました。後でもう一度お試しください。",
-            "invalidContryForCarrier": "配送業者がお客様の国コードを認識できません。"
+            "errorLoadingData": "購入に必要なデータの準備中にエラーが発生しました。後でもう一度お試しください。"
         },
         "stripeCardErrors": {
             "incomplete_number": "カード番号が未入力です。",
@@ -620,7 +617,7 @@
         "metaDescription": "初期設定ページ",
         "title": "初期設定",
         "subtitle": "数分でストアの設定を完了しましょう",
-        "defaultLanguageInfo": "ストア名と説明は英語（デフォルト言語）で保存されます。他の言語の翻訳は後から管理画面で追加できます。",
+        "defaultLanguageInfo": "ストア名と説明は ({defaultLang} デフォルト言語）で保存されます。他の言語の翻訳は後から管理画面で追加できます。",
         "fields": {
             "siteName": "サイト名",
             "siteDescription": "サイトの説明",
@@ -629,9 +626,11 @@
             "adminEmail": "管理者メールアドレス",
             "adminPassword": "管理者パスワード",
             "domainHint": "このインストール用にドメインが自動検出されるため、この項目は編集できません。",
-            "defaultLanguageHint": "英語でのデフォルト名になります",
+            "defaultTitleHint": "{defaultLang} でのデフォルト名になります",
             "currency": "通貨",
-            "currencyHint": "ストアの標準通貨"
+            "currencyHint": "ストアの標準通貨",
+            "defaultLanguage": "デフォルト言語",
+            "defaultLanguageHint": "これはストアのデフォルト言語であり、後で変更できます。"
         },
         "buttons": {
             "save": "設定を保存",
@@ -1078,7 +1077,9 @@
             "in_store_pickup": "店舗受け取りを利用できますか？",
             "maintenance": "メンテナンスモード",
             "theme": "テーマ",
-            "currency": "通貨"
+            "currency": "通貨",
+            "enabled_languages": "有効な言語",
+            "default_language": "デフォルト言語"
         },
         "metadataFieldLabels": {
             "title": "メタタイトル",
