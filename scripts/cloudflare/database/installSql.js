@@ -68,6 +68,8 @@ CREATE TABLE IF NOT EXISTS config (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     domain TEXT NOT NULL,
     currency TEXT NOT NULL DEFAULT 'BRL',
+    default_language TEXT NOT NULL DEFAULT 'pt-BR',
+    enabled_languages TEXT NOT NULL DEFAULT '["pt-BR"]' CHECK(json_valid(enabled_languages)),
     light_logo TEXT,
     dark_logo TEXT,
     favicon TEXT,
