@@ -2,7 +2,7 @@ import { getDb, getEnv, getCtx } from '@/lib/cloudflare/context';
 import { CountryCode, IResult, SupportedPaymentMethods, SupportedDeliveryOptions, SupportedLanguage, SupportedEmailSubjetcs } from '@/lib/types/generic';
 import { IAddress, IUser } from '@/lib/schemas/user';
 import { getCachedConfig } from '@/lib/cache/config';
-import { DEFAULT_CURRENCY, DEFAULT_LANGUAGE, DEFAULT_PAYMENT_API_IDS, EMAIL_SUBJECTS, STRIPE_ALLOWED_INSTALLMENTS } from '@/lib/constants';
+import { DEFAULT_CURRENCY, DEFAULT_LANGUAGE, DEFAULT_PAYMENT_API_IDS, EMAIL_SUBJECTS, STRIPE_ALLOWED_INSTALLMENTS, BRL_ONLY_METHODS } from '@/lib/constants';
 import { createPaymentIntent } from '@/lib/stripe/stripe';
 import { submitPayment, CreatePaymentParams, classifyMpTransactionStatus, MercadoPagoPaymentError, MercadoPagoOrderItem } from '@/lib/mercadopago/mercadopago';
 import { renderOrderConfirmationTemplate } from '@/lib/email/templates/order/order-confirmation';
@@ -16,6 +16,7 @@ import { calculateOrderDimensions, resolveShippingSelection } from '@/lib/shippi
 import { adminAllCarriers } from './carrier-admin';
 import { renderPaymentInstructionsTemplate } from '@/lib/email/templates/order/payment-instructions';
 import { buildPixStaticPayload, pixPayloadToBase64Png } from '../pix/br-code';
+import { isMethodAllowedForCurrency, toMinorUnits } from '../utils';
 
 
 interface MpPayerIdentification {
@@ -75,6 +76,8 @@ export async function createOrder(orderData: CreateOrderInput): Promise<IResult<
 
         const language = (user.preferred_language ?? DEFAULT_LANGUAGE) as SupportedLanguage;
         const config = await getCachedConfig(language);
+
+        if (BRL_ONLY_METHODS.includes(orderData.payment_method) && config?.currency !== 'BRL') return { success: false, error: 'Payment method not available for the store currency.', code: 'VALIDATION_ERROR' };
 
         orderData.installments = Number(orderData.installments) || 1;
         if (!orderData.items || orderData.items.length === 0) return { success: false, error: 'Invalid order', code: 'VALIDATION_ERROR' };
@@ -246,18 +249,21 @@ export async function createOrder(orderData: CreateOrderInput): Promise<IResult<
         const offlinePayment: number = DEFAULT_PAYMENT_API_IDS.DEFAULT;
         const isGateway = !!orderData.api_id && offlinePayment !== orderData.api_id && ['card', 'pix', 'boleto'].includes(orderData.payment_method);
 
+        const providerRow = await db
+            .prepare("SELECT api_provider, supports_installments, private_key FROM payment_api WHERE id = ? AND active = 1")
+            .bind(orderData.api_id)
+            .first();
+
+        if (!providerRow) throw new Error('Payment API not found');
+
+        const provider = providerRow.api_provider as string;
+
+        if (!isMethodAllowedForCurrency(config?.currency, orderData.payment_method, provider)) throw new Error('Payment method not available for the store currency.');
+
         let paymentInfo = null;
 
         // Process payment gateway
         if (isGateway) {
-            const providerRow = await db
-                .prepare("SELECT api_provider, supports_installments, private_key FROM payment_api WHERE id = ? AND active = 1")
-                .bind(orderData.api_id)
-                .first();
-
-            if (!providerRow) throw new Error('Payment API not found');
-
-            const provider = providerRow.api_provider as string;
             let status: string = 'pending';
             let externalId: string;
             let statusDetail: string | null = null;
@@ -268,7 +274,7 @@ export async function createOrder(orderData: CreateOrderInput): Promise<IResult<
                     const installmentsEnabled = !!providerRow?.supports_installments && STRIPE_ALLOWED_INSTALLMENTS.map(c => c.toLowerCase()).includes(currency);
 
                     const pi = await createPaymentIntent({
-                        baseValue: Math.round(baseValue * 100),
+                        baseValue: toMinorUnits(baseValue, currency),
                         orderId,
                         userEmail: user.email,
                         installmentsEnabled,

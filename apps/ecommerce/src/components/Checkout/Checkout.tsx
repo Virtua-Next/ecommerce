@@ -15,7 +15,7 @@ import { Check, Loader2, TriangleAlert } from 'lucide-react';
 import { Input } from '../ui/input';
 import { AddressSelection } from './AddressSelection';
 import { CarrierSelection } from './CarrierSelection';
-import { formatPrice, buildImageUrl, extractData, apiFetch, parseNumber } from '@/lib/utils';
+import { formatPrice, buildImageUrl, extractData, apiFetch, parseNumber, isMethodAllowedForCurrency } from '@/lib/utils';
 import { ICarrierTranslated, IShippingOption } from '@/lib/schemas/carrier';
 import { IPaymentApi, IPaymentMethodTranslated } from '@/lib/schemas/payment';
 import { MercadoPagoFormSDK, MercadoPagoPayload } from './MercadoPagoFormSDK';
@@ -23,7 +23,8 @@ import { ICON_MAP_PAYMENT } from '@/components/IconDropdown/IconDropdown';
 import { FaArrowLeft, FaExclamationTriangle, FaRegTimesCircle } from 'react-icons/fa';
 import ImageWithFallback from '@/components/ImageWithFallback/imageWithFallback';
 import { PlaceholderImage } from '@/components/PlaceholderImage/PlaceholderImage';
-import { useToast } from '@/components/ToastSystem'; import { DELIVERY_OPTIONS, PAYMENT_METHODS } from '@/lib/constants';
+import { useToast } from '@/components/ToastSystem';
+import { DELIVERY_OPTIONS, PAYMENT_METHODS } from '@/lib/constants';
 import { SupportedLanguage, SupportedPaymentMethods } from '@/lib/types/generic';
 import { IUser } from '@/lib/schemas/user';
 import PixPaymentModal from './PixPaymentModal';
@@ -146,9 +147,21 @@ export default function Checkout() {
         { id: 4, name: t('steps.confirmation'), status: 'upcoming' }
     ]
 
+
     const getMetodosOrdenados = () => {
-        return availableMethods.filter(met => met.method_type !== 'cash' || deliveryMethodSelected === 'pickup').sort((a, b) => ORDER_METHODS.indexOf(a.method_type) - ORDER_METHODS.indexOf(b.method_type));
+        return availableMethods
+            .filter(met => met.method_type !== 'cash' || deliveryMethodSelected === 'pickup')
+            .filter(met => isMethodAllowedForCurrency(
+                config?.currency,
+                met.method_type,
+                paymentApisAvailable?.find(a => a.id === met.api_id)?.api_provider,
+            ))
+            .sort((a, b) => ORDER_METHODS.indexOf(a.method_type) - ORDER_METHODS.indexOf(b.method_type));
     };
+
+    // const getMetodosOrdenados = () => {
+    //     return availableMethods.filter(met => met.method_type !== 'cash' || deliveryMethodSelected === 'pickup').sort((a, b) => ORDER_METHODS.indexOf(a.method_type) - ORDER_METHODS.indexOf(b.method_type));
+    // };
 
     const totalWithShipping = deliveryMethodSelected === 'delivery' && selectedCarrier ? total + parseNumber(pack?.price ?? '0') : total
 
@@ -498,6 +511,7 @@ export default function Checkout() {
             if (error.status === 401) {
                 showAlert('warning', error.message);
                 router.push(loginHref('/checkout'));
+                return;
             }
             const rejectionMessages = t.raw('mercadoPagoRejectionReasons') as Record<string, string>;
             const reason = error.message || 'cc_rejected_other_reason';

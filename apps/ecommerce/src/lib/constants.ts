@@ -1,4 +1,5 @@
 import { ApiErrorCode, SupportedLanguage, CountryCode, TranslationEntityTypes } from '@/lib/types/generic';
+import { BR, US, JP } from 'country-flag-icons/react/3x2';
 
 // --------- ERRORS ----------
 export const API_ERROR_CODES = ['NOT_FOUND', 'VALIDATION_ERROR', 'FORBIDDEN', 'NO_CHANGES', 'UPDATE_FAILED',
@@ -95,8 +96,8 @@ export const COUNTRY_LABELS: Record<CountryCode, string> = {
 export const DEFAULT_COUNTRY: CountryCode = 'BR';
 
 export const MERCADOPAGO_IDENTIFICATION_TYPE: Partial<Record<CountryCode, string>> = {
-    BR: 'CPF', // CNPJ tratado à parte, ver função abaixo
-    // Mercado Pago não opera oficialmente em US nem PT — não preencher esses.
+    BR: 'CPF', // CNPJ tratado à parte.
+    // Mercado Pago não opera oficialmente em US, PT, JP — não preencher esses.
     // Se SUPPORTED_COUNTRIES for expandido para outros países da América Latina
     // que o Mercado Pago atende, os tipos oficiais são:
     // AR: 'DNI',   // ou CUIT/CUIL dependendo do fluxo
@@ -114,14 +115,16 @@ export const LANGUAGE_LABELS: Record<SupportedLanguage, string> = {
     'en-US': 'English',
     'ja-JP': '日本語'
 };
-export const LANGUAGE_FLAGS: Record<SupportedLanguage, string> = {
-    'pt-BR': '🇧🇷',
-    'en-US': '🇺🇸',
-    'ja-JP': '🇯🇵',
-};
+
+export const LANGUAGE_FLAGS = [
+    { code: 'pt-BR', label: 'Português', Flag: BR },
+    { code: 'en-US', label: 'English', Flag: US },
+    { code: 'ja-JP', label: '日本語', Flag: JP },
+] as const;
 
 // ---------- CURRENCY ----------
 export const SUPPORTED_CURRENCIES = ['BRL', 'USD', 'JPY'] as const;
+export const ZERO_DECIMAL = ['JPY'];
 export const DEFAULT_CURRENCY = 'BRL' as const;
 
 
@@ -137,8 +140,11 @@ export const ORDER_STATUSES = ['pending', 'confirmed', 'processing', 'shipped', 
 // ----------- PAYMENTS ---------
 export const PAYMENT_API_PROVIDERS = ['offline', 'stripe', 'mercadopago'] as const;
 export const PAYMENT_METHODS = ['cash', 'boleto', 'transfer', 'pix', 'card'] as const;
+export const BRL_ONLY_METHODS = ['pix', 'boleto'];
 export const STRIPE_API_VERSION = '2026-08-26.dahlia' as const;
 export const STRIPE_ALLOWED_INSTALLMENTS = ['mxn', 'jpy'] as const;
+// Moedas em que o Mercado Pago opera (uma por país da conta).
+export const MERCADOPAGO_CURRENCIES = ['ARS', 'BRL', 'CLP', 'COP', 'MXN', 'PEN', 'UYU'] as const;
 
 // ---------- EMAILS -------------
 export const EMAIL_PROVIDERS = ['resend'] as const;
@@ -242,25 +248,25 @@ export const THEME_COLORS: Record<string, string[]> = {
 } as const;
 
 export const SEGMENT_BY_LOCALE: Record<string, Record<string, string>> = {
-    category: { 'en-US': 'category', 'pt-BR': 'categoria' },
-    brand: { 'en-US': 'brand', 'pt-BR': 'marca' },
-    page: { 'en-US': 'page', 'pt-BR': 'pagina' },
-    cart: { 'en-US': 'cart', 'pt-BR': 'carrinho' },
-    checkout: { 'en-US': 'checkout', 'pt-BR': 'finalizar-compra' },
-    checkout_confirm: { 'en-US': 'checkout/confirm', 'pt-BR': 'finalizar-compra/confirmacao' },
-    login: { 'en-US': 'login', 'pt-BR': 'entrar' },
-    maintenance: { 'en-US': 'maintenance', 'pt-BR': 'manutencao' },
-    register: { 'en-US': 'register', 'pt-BR': 'cadastro' },
-    register_confirm: { 'en-US': 'register/confirm', 'pt-BR': 'cadastro/confirmacao' },
-    reset: { 'en-US': 'reset', 'pt-BR': 'redefinir' },
-    reset_password: { 'en-US': 'reset/password', 'pt-BR': 'redefinir/senha' },
-    setup: { 'en-US': 'setup', 'pt-BR': 'instalacao' },
-    unauthorized: { 'en-US': 'unauthorized', 'pt-BR': 'nao-autorizado' },
-    not_found: { 'en-US': 'not-found', 'pt-BR': 'pagina-nao-encontrada' },
-    account: { 'en-US': 'account', 'pt-BR': 'conta' },
-    account_address: { 'en-US': 'account/address', 'pt-BR': 'conta/endereco' },
-    account_order: { 'en-US': 'account/order', 'pt-BR': 'conta/pedido' },
-    account_profile: { 'en-US': 'account/profile', 'pt-BR': 'conta/perfil' }
+    category: { 'pt-BR': 'categoria', 'en-US': 'category', 'ja-JP': 'category' },
+    brand: { 'pt-BR': 'marca', 'en-US': 'brand', 'ja-JP': 'brand' },
+    page: { 'pt-BR': 'pagina', 'en-US': 'page', 'ja-JP': 'page' },
+    cart: { 'pt-BR': 'carrinho', 'en-US': 'cart', 'ja-JP': 'cart' },
+    checkout: { 'pt-BR': 'finalizar-compra', 'en-US': 'checkout', 'ja-JP': 'checkout' },
+    checkout_confirm: { 'pt-BR': 'finalizar-compra/confirmacao', 'en-US': 'checkout/confirm', 'ja-JP': 'checkout/confirm' },
+    login: { 'pt-BR': 'entrar', 'en-US': 'login', 'ja-JP': 'login' },
+    maintenance: { 'pt-BR': 'manutencao', 'en-US': 'maintenance', 'ja-JP': 'maintenance' },
+    register: { 'pt-BR': 'cadastro', 'en-US': 'register', 'ja-JP': 'register' },
+    register_confirm: { 'pt-BR': 'cadastro/confirmacao', 'en-US': 'register/confirm', 'ja-JP': 'register/confirm' },
+    reset: { 'pt-BR': 'redefinir', 'en-US': 'reset', 'ja-JP': 'reset' },
+    reset_password: { 'pt-BR': 'redefinir/senha', 'en-US': 'reset/password', 'ja-JP': 'reset/password' },
+    setup: { 'pt-BR': 'instalacao', 'en-US': 'setup', 'ja-JP': 'setup' },
+    unauthorized: { 'pt-BR': 'nao-autorizado', 'en-US': 'unauthorized', 'ja-JP': 'unauthorized' },
+    not_found: { 'pt-BR': 'pagina-nao-encontrada', 'en-US': 'not-found', 'ja-JP': 'not-found' },
+    account: { 'pt-BR': 'conta', 'en-US': 'account', 'ja-JP': 'account' },
+    account_address: { 'pt-BR': 'conta/endereco', 'en-US': 'account/address', 'ja-JP': 'account/address' },
+    account_order: { 'pt-BR': 'conta/pedido', 'en-US': 'account/order', 'ja-JP': 'account/order' },
+    account_profile: { 'pt-BR': 'conta/perfil', 'en-US': 'account/profile', 'ja-JP': 'account/profile' }
 };
 
 export const ENTITY_TYPE_BY_PATH: Record<string, TranslationEntityTypes> = {

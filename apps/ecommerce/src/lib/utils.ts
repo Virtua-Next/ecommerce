@@ -8,11 +8,27 @@ import { IProductTranslated } from "@/lib/schemas/product";
 import { NextResponse } from "next/server";
 import { decode } from 'html-entities';
 import { ApiErrorCode, CountryCode, SupportedCurrency, SupportedLanguage } from "@/lib/types/generic";
-import { DEFAULT_LANGUAGE, ERROR_CODE_KEYS, SUPPORTED_LANGUAGES } from "@/lib/constants";
+import { DEFAULT_LANGUAGE, ERROR_CODE_KEYS, SUPPORTED_LANGUAGES, ZERO_DECIMAL, BRL_ONLY_METHODS, MERCADOPAGO_CURRENCIES } from "@/lib/constants";
 import { AddressFormState } from "./schemas/user";
 import { AddressFieldKey, AddressValidationResult, CONDITIONALLY_REQUIRED, COUNTRY_CONFIGS, REQUIRED_FIELDS } from "./schemas/country-configs";
 import slugify from 'slugify';
 
+
+export function isMethodAllowedForCurrency(currency: string | undefined, methodType: string, provider?: string) {
+    const cur = (currency ?? '').toUpperCase();
+    if (BRL_ONLY_METHODS.includes(methodType) && cur !== 'BRL') return false;
+    if (provider === 'mercadopago' && !(MERCADOPAGO_CURRENCIES as readonly string[]).includes(cur)) return false;
+    return true;
+}
+
+const factor = (currency: string) =>
+    ZERO_DECIMAL.includes(currency.toUpperCase()) ? 1 : 100;
+
+export const toMinorUnits = (amount: number, currency: string) =>
+    Math.round(amount * factor(currency));
+
+export const fromMinorUnits = (minor: number, currency: string) =>
+    minor / factor(currency);
 
 // Scripts slugify can't transliterate: the slug would be empty or a stray fragment.
 // (new RegExp avoids TS complaining about \p{...} when the target is below ES2018)
@@ -79,7 +95,7 @@ export function jsonNoStore(body: unknown, status: number) {
     });
 }
 
-export function formatPrice(value: number, locale: string, currency: SupportedCurrency = 'USD'): string {
+export function formatPrice(value: number, locale: string, currency: SupportedCurrency = 'BRL'): string {
     return new Intl.NumberFormat(locale, {
         style: 'currency',
         currency,

@@ -664,7 +664,8 @@
         "logout": "Sair",
         "login": "Entrar",
         "signup": "Cadastrar",
-        "theme": "Tema"
+        "theme": "Tema",
+        "language": "Idioma"
     },
     "Footer": {
         "copyright": "© {year} {site}. Todos os direitos reservados."

@@ -9,7 +9,7 @@ import { MetadataManager } from '@/components/MetadataManager/MetadataManager';
 import { LanguageTabs } from '@/components/LanguageTabs/LanguageTabs';
 import ImageWithFallback from '@/components/ImageWithFallback/imageWithFallback';
 import { PlaceholderImage } from '@/components/PlaceholderImage/PlaceholderImage';
-import { LANGUAGE_FLAGS, LANGUAGE_LABELS, SUPPORTED_LANGUAGES } from '@/lib/constants';
+import { LANGUAGE_FLAGS, LANGUAGE_LABELS, SUPPORTED_CURRENCIES, SUPPORTED_LANGUAGES } from '@/lib/constants';
 import { SupportedLanguage } from '@/lib/types/generic';
 import { useRouter } from '@/i18n/navigation';
 import { useToast } from '@/components/ToastSystem';
@@ -232,16 +232,26 @@ const ConfigComponent = React.memo(function ConfigComponent() {
 
     const getFieldLabel = (key: string) => t(`fieldLabels.${key}`) || key;
 
+    const renderFlag = (code: string) => {
+        const lang = LANGUAGE_FLAGS.find((l) => l.code === code);
+        return lang
+            ? <lang.Flag key={code} title={lang.label} className="h-4 w-6 rounded-sm" />
+            : <span key={code}>{code}</span>;
+    };
+
     const formatValue = (value: any, key: string) => {
         if (value === null || value === undefined || value === '') return t('none');
         if (['maintenance', 'show_price', 'new_address_checkout', 'in_store_pickup'].includes(key)) {
             return value ? t('yes') : t('no');
         }
+        if (key === 'default_language') {
+            return renderFlag(String(value));
+        }
         if (key === 'enabled_languages') {
-            if (Array.isArray(value)) {
-                return value.map((lang: string) => lang).join(', ');
-            }
-            return value;
+            const codes: string[] = Array.isArray(value)
+                ? value
+                : String(value).split(',').map((s) => s.trim()).filter(Boolean);
+            return <span className="flex items-center gap-2">{codes.map(renderFlag)}</span>;
         }
         return value;
     };
@@ -274,6 +284,8 @@ const ConfigComponent = React.memo(function ConfigComponent() {
             handleInputChange('default_language' as keyof IConfig, updated[0] as any);
         }
     };
+
+    const currencyNames = new Intl.DisplayNames([locale], { type: 'currency' });
 
     if (loading || metadataLoading || !novoConfig) return <div className="p-6">{tCommon('loading')}</div>;
 
@@ -352,20 +364,25 @@ const ConfigComponent = React.memo(function ConfigComponent() {
                                         ) : key === 'theme' || key === 'domain' ? (
                                             <span>{String(value) || t('none')}</span>
                                         ) : key === 'default_language' ? (
-                                            <select
-                                                className="w-full p-2 border dark:border-gray-700 rounded"
-                                                value={novoConfig.default_language ?? ''}
-                                                onChange={(e) => handleInputChange('default_language' as keyof IConfig, e.target.value)}
-                                            >
-                                                {enabledLanguages.map((code) => (
-                                                    <option key={code} value={code}>
-                                                        {LANGUAGE_FLAGS[code as SupportedLanguage]} {LANGUAGE_LABELS[code as SupportedLanguage]}
-                                                    </option>
+                                            <div role="radiogroup" className="flex flex-wrap gap-4 p-3 border dark:border-gray-700 rounded">
+                                                {LANGUAGE_FLAGS.filter((l) => enabledLanguages.includes(l.code)).map(({ code, label, Flag }) => (
+                                                    <label key={code} className="flex items-center gap-2 cursor-pointer select-none">
+                                                        <input
+                                                            type="radio"
+                                                            name="default_language"
+                                                            value={code}
+                                                            checked={novoConfig.default_language === code}
+                                                            onChange={() => handleInputChange('default_language' as keyof IConfig, code)}
+                                                            className="w-4 h-4 cursor-pointer"
+                                                        />
+                                                        <Flag className="h-4 w-6 rounded-sm" />
+                                                        <span>{label}</span>
+                                                    </label>
                                                 ))}
-                                            </select>
+                                            </div>
                                         ) : key === 'enabled_languages' ? (
                                             <div className="flex flex-wrap gap-4 p-3 border dark:border-gray-700 rounded">
-                                                {SUPPORTED_LANGUAGES.map((code) => (
+                                                {LANGUAGE_FLAGS.map(({ code, label, Flag }) => (
                                                     <label
                                                         key={code}
                                                         className="flex items-center gap-2 cursor-pointer select-none"
@@ -376,8 +393,25 @@ const ConfigComponent = React.memo(function ConfigComponent() {
                                                             onChange={() => toggleLanguage(code)}
                                                             className="w-4 h-4 cursor-pointer"
                                                         />
-                                                        <span className="text-lg">{LANGUAGE_FLAGS[code]}</span>
-                                                        <span>{LANGUAGE_LABELS[code]}</span>
+                                                        <Flag className="h-4 w-6 rounded-sm" />
+                                                        <span>{label}</span>
+                                                    </label>
+                                                ))}
+                                            </div>
+                                        ) : key === 'currency' ? (
+                                            <div role="radiogroup" className="flex flex-wrap gap-4 p-3 border dark:border-gray-700 rounded">
+                                                {SUPPORTED_CURRENCIES.map((code) => (
+                                                    <label key={code} className="flex items-center gap-2 cursor-pointer select-none">
+                                                        <input
+                                                            type="radio"
+                                                            name="currency"
+                                                            value={code}
+                                                            checked={novoConfig.currency === code}
+                                                            onChange={() => handleInputChange('currency' as keyof IConfig, code)}
+                                                            className="w-4 h-4 cursor-pointer"
+                                                        />
+                                                        <span className="font-medium">{code}</span>
+                                                        <span className="text-gray-500">{currencyNames.of(code)}</span>
                                                     </label>
                                                 ))}
                                             </div>

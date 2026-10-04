@@ -35,6 +35,7 @@
         "@tiptap/react": "^3.30.2",
         "@tiptap/starter-kit": "^3.30.2",
         "class-variance-authority": "^0.7.1",
+        "country-flag-icons": "^1.6.20",
         "cpf-cnpj-validator": "^2.1.2",
         "dompurify": "^3.4.14",
         "framer-motion": "^13.1.1",

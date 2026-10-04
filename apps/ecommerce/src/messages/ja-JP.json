@@ -664,7 +664,8 @@
         "logout": "ログアウト",
         "login": "ログイン",
         "signup": "アカウントを作成",
-        "theme": "テーマ"
+        "theme": "テーマ",
+        "language": "言語"
     },
     "Footer": {
         "copyright": "© {year} {site}. All rights reserved."

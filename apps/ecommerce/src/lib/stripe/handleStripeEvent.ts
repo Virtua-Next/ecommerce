@@ -9,6 +9,7 @@ import { MailSender } from '../emailSender';
 import { getAdminConfig } from '../db/config-admin';
 import { SupportedLanguage } from '../types/generic';
 import { getFullOrderById } from '../db/order';
+import { fromMinorUnits } from '@/lib/utils';
 
 
 type StripeOutcome = 'approved' | 'rejected' | 'canceled' | 'pending';
@@ -79,8 +80,10 @@ export async function handleStripeEvent(event: Stripe.Event) {
 
 
             const method = await resolvePaymentMethodType(pi.id);
-            const chargedAmount = (pi.amount_received || 0) / 100;
-            const amount = (pi.amount || 0) / 100;
+
+            const chargedAmount = fromMinorUnits(pi.amount_received || 0, pi.currency);
+            const amount = fromMinorUnits(pi.amount || 0, pi.currency);
+
             const payedInstallments = pi.payment_method_options?.card?.installments?.plan?.count ?? 1;
             const interest = Math.round((chargedAmount - amount) * 100) / 100;
             await upsertPayment({
@@ -118,7 +121,7 @@ export async function handleStripeEvent(event: Stripe.Event) {
                 paymentIntentId: pi.id,
                 outcome: 'rejected',
                 gatewayStatus: pi.status,
-                amount: (pi.amount || 0) / 100,
+                amount: fromMinorUnits(pi.amount || 0, pi.currency),
                 orderId,
                 method,
             });
@@ -139,7 +142,7 @@ export async function handleStripeEvent(event: Stripe.Event) {
                 paymentIntentId: pi.id,
                 outcome: 'canceled',
                 gatewayStatus: pi.status,
-                amount: (pi.amount || 0) / 100,
+                amount: fromMinorUnits(pi.amount || 0, pi.currency),
                 orderId,
                 method,
             });
@@ -160,8 +163,8 @@ export async function handleStripeEvent(event: Stripe.Event) {
             }
 
             const method = await resolvePaymentMethodType(pi.id);
-            const amount = (pi.amount || 0) / 100;
-
+            const amount = fromMinorUnits(pi.amount || 0, pi.currency);
+  
             const existing = await db
                 .prepare('SELECT gateway_status FROM payment WHERE external_id = ?')
                 .bind(pi.id)
